@@ -1,5 +1,6 @@
 ﻿using MartinMatta_MerlinCore.Actors;
 using MartinMatta_MerlinCore.Actors.Interfaces;
+using MartinMatta_MerlinCore.Commands;
 using MartinMatta_MerlinCore.Spells.Interfaces;
 using Merlin2d.Game.Actions;
 using System;
@@ -12,6 +13,17 @@ namespace MartinMatta_MerlinCore.Spells
 {
     public class ProjectileSpell : AbstractActor, IMovable, ISpell
     {
+
+        private int speed;
+        private Move forward;
+        private AbstractCharacter caster;
+
+        public ProjectileSpell(AbstractCharacter caster, int speed)
+        {
+            this.caster = caster;
+            this.speed = speed;
+        }
+
         public ISpell AddEffect(ICommand effect)
         {
             throw new NotImplementedException();

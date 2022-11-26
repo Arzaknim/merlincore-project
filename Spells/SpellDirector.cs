@@ -1,4 +1,5 @@
-﻿using MartinMatta_MerlinCore.Spells.Interfaces;
+﻿using MartinMatta_MerlinCore.Actors;
+using MartinMatta_MerlinCore.Spells.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace MartinMatta_MerlinCore.Spells
     public class SpellDirector : ISpellDirector
     {
         private ProjectileSpellBuilder projectileSpellBuilder;
-        private SelfCastSpellBuilder selfCatSpellBuilder;
+        private SelfCastSpellBuilder selfCastSpellBuilder;
         private IWizard wizard;
 
         private List<string> spells;
@@ -18,7 +19,7 @@ namespace MartinMatta_MerlinCore.Spells
         public SpellDirector(IWizard wizard)
         {
             this.projectileSpellBuilder = new ProjectileSpellBuilder();
-            this.selfCatSpellBuilder = new SelfCastSpellBuilder(wizard);
+            this.selfCastSpellBuilder = new SelfCastSpellBuilder(wizard);
             this.wizard = wizard;
             this.spells = new List<string>();
             this.spells.Add("Into the Fray!");
@@ -28,7 +29,7 @@ namespace MartinMatta_MerlinCore.Spells
         {
             if (this.spells.Contains(spellName))
             {
-                if(spellName == "frostbite icicle")
+                if(spellName == "icicle")
                 {
                     if(this.wizard.GetMana() >= 25)
                     {
@@ -41,7 +42,8 @@ namespace MartinMatta_MerlinCore.Spells
                     if(this.wizard.GetMana() >= 50)
                     {
                         this.wizard.ChangeMana(-50);
-                        return this.selfCatSpellBuilder.AddEffect("speedup").AddEffect("heal").CreateSpell(wizard);
+                        this.selfCastSpellBuilder.Spell = spellName;
+                        return this.selfCastSpellBuilder.AddEffect("speedup").AddEffect("heal").CreateSpell(wizard);
                     }
                 }
                 return null;

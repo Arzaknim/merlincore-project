@@ -47,90 +47,95 @@ namespace MartinMatta_MerlinCore.Actors
 
         public override void Update()
         {
-            if (this.IsPlayerClose())
+            IActor player = this.GetWorld().GetActors().Find(x => x.GetName() == "Merlin");
+            if(player != null)
             {
-                int dx = this.player.GetX() - this.GetX();
-                int dy = this.player.GetY() - this.GetY();
-                if (dy <= 0 && Math.Abs(dx) <= Math.Abs(dy))
+                if (this.IsPlayerClose())
                 {
-                    this.animation.Start();
-                    this.moveUp.Execute();
-                }
-                else if (dy >= 0 && Math.Abs(dx) <= Math.Abs(dy))
-                {
-                    this.animation.Start();
-                    this.moveDown.Execute();
-                }
-                else if (dx <= 0 && Math.Abs(dx) >= Math.Abs(dy))
-                {
-                    if (this.lastMove == this.moveRight)
+                    int dx = this.player.GetX() - this.GetX();
+                    int dy = this.player.GetY() - this.GetY();
+                    if (dy <= 0 && Math.Abs(dx) <= Math.Abs(dy))
                     {
-                        this.animation.FlipAnimation();
-                        this.lastMove = this.moveLeft;
+                        this.animation.Start();
+                        this.moveUp.Execute();
                     }
-                    this.animation.Start();
-                    this.moveLeft.Execute();
-                }
-                else if (dx >= 0 && Math.Abs(dx) >= Math.Abs(dy))
-                {
-                    if (this.lastMove == this.moveLeft)
+                    else if (dy >= 0 && Math.Abs(dx) <= Math.Abs(dy))
                     {
-                        this.animation.FlipAnimation();
-                        this.lastMove = this.moveRight;
+                        this.animation.Start();
+                        this.moveDown.Execute();
                     }
-                    this.animation.Start();
-                    this.moveRight.Execute();
+                    else if (dx <= 0 && Math.Abs(dx) >= Math.Abs(dy))
+                    {
+                        if (this.lastMove == this.moveRight)
+                        {
+                            this.animation.FlipAnimation();
+                            this.lastMove = this.moveLeft;
+                        }
+                        this.animation.Start();
+                        this.moveLeft.Execute();
+                    }
+                    else if (dx >= 0 && Math.Abs(dx) >= Math.Abs(dy))
+                    {
+                        if (this.lastMove == this.moveLeft)
+                        {
+                            this.animation.FlipAnimation();
+                            this.lastMove = this.moveRight;
+                        }
+                        this.animation.Start();
+                        this.moveRight.Execute();
+                    }
+                }
+                else
+                {
+                    int num = this.rng.Next(0, 100);
+
+                    if (num < 25)
+                    {
+                        this.animation.Start();
+                        this.moveUp.Execute();
+                    }
+                    else if (num < 50)
+                    {
+                        this.animation.Start();
+                        this.moveDown.Execute();
+                    }
+                    else if (num < 75)
+                    {
+                        if (this.lastMove == this.moveRight)
+                        {
+                            this.animation.FlipAnimation();
+                            this.lastMove = this.moveLeft;
+                        }
+                        this.animation.Start();
+                        this.moveLeft.Execute();
+                    }
+                    else if (num < 100)
+                    {
+                        if (this.lastMove == this.moveLeft)
+                        {
+                            this.animation.FlipAnimation();
+                            this.lastMove = this.moveRight;
+                        }
+                        this.animation.Start();
+                        this.moveRight.Execute();
+                    }
                 }
             }
             else
             {
-                int num = this.rng.Next(0, 100);
-
-                if (num < 25)
-                {
-                    this.animation.Start();
-                    this.moveUp.Execute();
-                }
-                else if (num < 50)
-                {
-                    this.animation.Start();
-                    this.moveDown.Execute();
-                }
-                else if (num < 75)
-                {
-                    if (this.lastMove == this.moveRight)
-                    {
-                        this.animation.FlipAnimation();
-                        this.lastMove = this.moveLeft;
-                    }
-                    this.animation.Start();
-                    this.moveLeft.Execute();
-                }
-                else if (num < 100)
-                {
-                    if (this.lastMove == this.moveLeft)
-                    {
-                        this.animation.FlipAnimation();
-                        this.lastMove = this.moveRight;
-                    }
-                    this.animation.Start();
-                    this.moveRight.Execute();
-                }
+                this.animation.Stop();
             }
+
         }
 
         private bool IsPlayerClose()
         {
-            if( this.player != null) 
+            int dx = this.player.GetX() - this.GetX();
+            int dy = this.player.GetY() - this.GetY();
+            if ((int)(Math.Sqrt(dx * dx + dy * dy)) <= this.n)
             {
-                int dx = this.player.GetX() - this.GetX();
-                int dy = this.player.GetY() - this.GetY();
-                if ((int)(Math.Sqrt(dx * dx + dy * dy)) <= this.n)
-                {
-                    /*this.IntersectsWithActor(this.player);*/
-                    return true;
-                }
-                return false;
+                /*this.IntersectsWithActor(this.player);*/
+                return true;
             }
             return false;
         }

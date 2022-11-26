@@ -125,13 +125,14 @@ namespace MartinMatta_MerlinCore.Actors
                     this.moveLeft.Execute();
                     this.lastMove = moveLeft;
                 }
-                else if (Input.GetInstance().IsKeyPressed(Input.Key.Q))
-                {
-                    this.spellDirector.Build("Into the Fray!");
-                }
                 else
                 {
                     animation.Stop();
+                }
+
+                if (Input.GetInstance().IsKeyPressed(Input.Key.Q))
+                {
+                    this.spellDirector.Build("Into the Fray!");
                 }
             }
             else

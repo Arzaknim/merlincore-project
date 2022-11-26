@@ -12,7 +12,11 @@ namespace MartinMatta_MerlinCore.Spells
     {
         public ISpellBuilder AddEffect(string effectName)
         {
-            throw new NotImplementedException();
+            if(effectName == "frostbite")
+            {
+
+            }
+            return this;
         }
 
         public ISpell CreateSpell(IWizard wizard)

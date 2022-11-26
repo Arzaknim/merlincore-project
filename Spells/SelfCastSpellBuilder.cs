@@ -1,6 +1,7 @@
 ﻿using MartinMatta_MerlinCore.Actors;
 using MartinMatta_MerlinCore.Spells.Interfaces;
 using Merlin2d.Game;
+using Merlin2d.Game.Actions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,16 @@ namespace MartinMatta_MerlinCore.Spells
     public class SelfCastSpellBuilder : ISpellBuilder
     {
         private AbstractWizardCharacter wizard;
-
+        private IEnumerable<ICommand> effects;
         private SpeedUpSpeedStrategy speedUpSpeedStrategy;
+
+        private string spellToExecute;
+
+        public string Spell
+        {
+            get { return this.spellToExecute; }
+            set { this.spellToExecute = value; }
+        }
 
 
         public SelfCastSpellBuilder(IWizard wizard)
@@ -37,7 +46,11 @@ namespace MartinMatta_MerlinCore.Spells
 
         public ISpell CreateSpell(IWizard wizard)
         {
-            return new IntoTheFraySpell();
+            if(this.Spell == "Into the Fray!")
+            {
+                return new IntoTheFraySpell();
+            }
+            return null;
         }
 
         public ISpellBuilder SetAnimation(Animation animation)

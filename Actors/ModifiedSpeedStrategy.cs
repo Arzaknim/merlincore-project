@@ -9,6 +9,6 @@ namespace MartinMatta_MerlinCore.Actors
 {
     public class ModifiedSpeedStrategy : ISpeedStrategy
     {
-        public double GetSpeed(double speed) => speed * 1.2;
+        public double GetSpeed(double speed) => speed * 0.5;
     }
 }

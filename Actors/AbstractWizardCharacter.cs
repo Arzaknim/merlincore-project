@@ -13,7 +13,7 @@ namespace MartinMatta_MerlinCore.Actors
 
         public AbstractWizardCharacter()
         {
-            mana = 100;
+            this.mana = 100;
         }
 
         public void Cast(ISpell spell)
