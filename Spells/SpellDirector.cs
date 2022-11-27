@@ -37,7 +37,10 @@ namespace MartinMatta_MerlinCore.Spells
                     {
                         this.wizard.ChangeMana(-25);
                         this.projectileSpellBuilder.Spell = spellName;
-                        return this.projectileSpellBuilder.AddEffect("frostbite").CreateSpell(wizard);
+                        ISpell spell = this.projectileSpellBuilder.AddEffect("frostbite").CreateSpell(wizard);
+                        this.wizard.GetWorld().AddActor((IActor)spell);
+                        ((IActor)spell).SetPhysics(false);
+                        return spell;
                     }
                 }
                 else if(spellName == "Into the Fray!")
@@ -46,9 +49,7 @@ namespace MartinMatta_MerlinCore.Spells
                     {
                         this.wizard.ChangeMana(-50);
                         this.selfCastSpellBuilder.Spell = spellName;
-                        ISpell spell = this.selfCastSpellBuilder.AddEffect("speedup").AddEffect("heal").CreateSpell(wizard);
-                        this.wizard.GetWorld().AddActor((IActor)spell);
-                        return spell;
+                        return this.selfCastSpellBuilder.AddEffect("speedup").AddEffect("heal").CreateSpell(wizard);
                     }
                 }
                 return null;

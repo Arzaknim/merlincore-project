@@ -20,6 +20,7 @@ namespace MartinMatta_MerlinCore.Spells
         private AbstractCharacter caster;
         private NormalSpeedStrategy normalSpeedStrategy;
         private SpellInfo info;
+        private ActorOrientation initialOrientation;
 
         private int spellRange;
         private int distanceTravelled;
@@ -32,7 +33,8 @@ namespace MartinMatta_MerlinCore.Spells
             this.SetPosition(casterFrontX, casterMiddleY);
             this.speed = speed;
             this.normalSpeedStrategy = new NormalSpeedStrategy();
-            if(this.caster.GetOrientation() == ActorOrientation.RIGHT)
+            this.initialOrientation = this.caster.GetOrientation();
+            if (this.initialOrientation == ActorOrientation.RIGHT)
                 this.forward = new Move(this, 1, 0);
             else
                 this.forward = new Move(this, -1, 0);
@@ -75,7 +77,10 @@ namespace MartinMatta_MerlinCore.Spells
             if(this.distanceTravelled < this.spellRange)
             {
                 this.distanceTravelled += 2;
-                this.SetPosition(this.GetX(), this.GetY() + this.distanceTravelled);
+                if(this.initialOrientation == ActorOrientation.RIGHT)
+                    this.SetPosition(this.GetX() + this.distanceTravelled, this.GetY());
+                else
+                    this.SetPosition(this.GetX() - this.distanceTravelled, this.GetY());
             }
             else
             {
