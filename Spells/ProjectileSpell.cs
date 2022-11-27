@@ -3,6 +3,7 @@ using MartinMatta_MerlinCore.Actors.Interfaces;
 using MartinMatta_MerlinCore.Commands;
 using MartinMatta_MerlinCore.Spells.Interfaces;
 using Merlin2d.Game.Actions;
+using Merlin2d.Game.Actors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,11 +18,27 @@ namespace MartinMatta_MerlinCore.Spells
         private int speed;
         private Move forward;
         private AbstractCharacter caster;
+        private NormalSpeedStrategy normalSpeedStrategy;
+        private SpellInfo info;
 
-        public ProjectileSpell(AbstractCharacter caster, int speed)
+        private int spellRange;
+        private int distanceTravelled;
+
+        public ProjectileSpell(AbstractCharacter caster, int speed, int range)
         {
             this.caster = caster;
+            int casterFrontX = this.caster.GetX() + this.caster.GetAnimation().GetWidth();
+            int casterMiddleY = this.caster.GetY() + this.caster.GetAnimation().GetHeight() / 2;
+            this.SetPosition(casterFrontX, casterMiddleY);
             this.speed = speed;
+            this.normalSpeedStrategy = new NormalSpeedStrategy();
+            if(this.caster.GetOrientation() == ActorOrientation.RIGHT)
+                this.forward = new Move(this, 1, 0);
+            else
+                this.forward = new Move(this, -1, 0);
+            this.spellRange = range;
+            this.distanceTravelled = 0;
+
         }
 
         public ISpell AddEffect(ICommand effect)
@@ -46,17 +63,33 @@ namespace MartinMatta_MerlinCore.Spells
 
         public double GetSpeed()
         {
-            throw new NotImplementedException();
+            return this.normalSpeedStrategy.GetSpeed(this.speed);
         }
 
         public void SetSpeedStrategy(ISpeedStrategy strategy)
         {
-            throw new NotImplementedException();
         }
 
         public override void Update()
         {
-            throw new NotImplementedException();
+            if(this.distanceTravelled < this.spellRange)
+            {
+                this.distanceTravelled += 2;
+                this.SetPosition(this.GetX(), this.GetY() + this.distanceTravelled);
+            }
+            else
+            {
+                this.RemoveFromWorld();
+            }
+            List<IActor> enemies = this.GetWorld().GetActors().FindAll(x => x.GetName() == "Spooky Scary Skeleton");
+            foreach (IActor enemyItem in enemies)
+            {
+                if (this.IntersectsWithActor(enemyItem))
+                {
+                    ((AbstractCharacter)enemyItem).ChangeHealth(-25);
+
+                }
+            }
         }
     }
 }

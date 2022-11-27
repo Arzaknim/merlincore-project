@@ -10,6 +10,7 @@ namespace MartinMatta_MerlinCore.Actors
 {
     public abstract class AbstractCharacter : AbstractActor, ICharacter
     {
+        protected ActorOrientation orientation;
         protected ISpeedStrategy strategy;
         protected double speed;
         private int health;
@@ -17,6 +18,7 @@ namespace MartinMatta_MerlinCore.Actors
         public AbstractCharacter()
         {
             this.health = 100;
+            this.orientation = ActorOrientation.RIGHT;
         }
 
         public void ChangeHealth(int delta)
@@ -61,6 +63,16 @@ namespace MartinMatta_MerlinCore.Actors
         public double GetSpeed()
         {
             return this.strategy.GetSpeed(this.speed);
+        }
+
+        public ActorOrientation GetOrientation()
+        {
+            return this.orientation;
+        }
+
+        public void SetOrientation(ActorOrientation orientation)
+        {
+            this.orientation = orientation;
         }
     }
 }

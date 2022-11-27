@@ -47,6 +47,7 @@ namespace MartinMatta_MerlinCore.Actors
 
         public override void Update()
         {
+            Console.WriteLine(this.GetHealth());
             IActor player = this.GetWorld().GetActors().Find(x => x.GetName() == "Merlin");
             if(player != null)
             {

@@ -19,7 +19,6 @@ namespace MartinMatta_MerlinCore.Actors
         private NormalSpeedStrategy normalSpeedStrategy;
         private ModifiedSpeedStrategy modifiedSpeedStrategy;
         
-        private ICommand lastMove;
         private ICommand moveUp;
         private ICommand moveDown;
         private ICommand moveRight;
@@ -43,7 +42,7 @@ namespace MartinMatta_MerlinCore.Actors
             this.modifiedSpeedStrategy = new ModifiedSpeedStrategy();
             this.strategy = this.normalSpeedStrategy;
 
-            animation = new Animation("resources/sprites/player.png", 28, 47);
+            this.animation = new Animation("resources/sprites/player.png", 28, 47);
             this.SetAnimation(animation);
             this.GetAnimation().Start();
 
@@ -54,14 +53,14 @@ namespace MartinMatta_MerlinCore.Actors
             this.moveDown = new Move(this, 0, 1);
             this.moveRight = new Move(this, 1, 0);
             this.moveLeft = new Move(this, -1, 0);
-            this.lastMove = moveRight;
+            this.orientation = ActorOrientation.RIGHT;
         }
 
         public override void Update()
         {
             //Console.WriteLine(this.speed);
-            Console.WriteLine(this.GetHealth());
-            Console.WriteLine(this.GetMana());
+            /*Console.WriteLine(this.GetHealth());
+            Console.WriteLine(this.GetMana());*/
             //Console.WriteLine(this.strategy);
             IActor enemy = this.GetWorld().GetActors().Find(x => x.GetName() == "Spooky Scary Skeleton");
             if(this.GetHealth() > 0)
@@ -111,19 +110,19 @@ namespace MartinMatta_MerlinCore.Actors
                 }
                 else if (Input.GetInstance().IsKeyDown(Input.Key.RIGHT))
                 {
-                    if (this.lastMove == moveLeft)
+                    if (this.orientation == ActorOrientation.LEFT)
                         animation.FlipAnimation();
                     animation.Start();
                     this.moveRight.Execute();
-                    this.lastMove = moveRight;
+                    this.orientation = ActorOrientation.RIGHT;
                 }
                 else if (Input.GetInstance().IsKeyDown(Input.Key.LEFT))
                 {
-                    if (this.lastMove == moveRight)
+                    if (this.orientation == ActorOrientation.RIGHT)
                         animation.FlipAnimation();
                     animation.Start();
                     this.moveLeft.Execute();
-                    this.lastMove = moveLeft;
+                    this.orientation = ActorOrientation.LEFT;
                 }
                 else
                 {
@@ -133,6 +132,10 @@ namespace MartinMatta_MerlinCore.Actors
                 if (Input.GetInstance().IsKeyPressed(Input.Key.Q))
                 {
                     this.spellDirector.Build("Into the Fray!");
+                }
+                else if (Input.GetInstance().IsKeyPressed(Input.Key.E))
+                {
+                    this.spellDirector.Build("icicle");
                 }
             }
             else

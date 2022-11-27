@@ -32,6 +32,9 @@
     <None Update="resources\crystal_on.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="resources\icicle.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="resources\maps\map01.tmx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

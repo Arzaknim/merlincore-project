@@ -23,6 +23,7 @@ namespace MartinMatta_MerlinCore.Spells
             this.wizard = wizard;
             this.spells = new List<string>();
             this.spells.Add("Into the Fray!");
+            this.spells.Add("icicle");
         }
 
         public ISpell Build(string spellName)
@@ -34,6 +35,7 @@ namespace MartinMatta_MerlinCore.Spells
                     if(this.wizard.GetMana() >= 25)
                     {
                         this.wizard.ChangeMana(-25);
+                        this.projectileSpellBuilder.Spell = spellName;
                         return this.projectileSpellBuilder.AddEffect("frostbite").CreateSpell(wizard);
                     }
                 }

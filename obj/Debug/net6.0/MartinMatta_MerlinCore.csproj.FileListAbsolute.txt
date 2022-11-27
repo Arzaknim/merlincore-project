@@ -35,3 +35,4 @@ A:\c#\MartinMatta_MerlinCore\MartinMatta_MerlinCore\obj\Debug\net6.0\MartinMatta
 A:\c#\MartinMatta_MerlinCore\MartinMatta_MerlinCore\bin\Debug\net6.0\resources\maps\map01.tmx
 A:\c#\MartinMatta_MerlinCore\MartinMatta_MerlinCore\bin\Debug\net6.0\resources\sprites\player.png
 A:\c#\MartinMatta_MerlinCore\MartinMatta_MerlinCore\bin\Debug\net6.0\resources\sprites\skeleton.png
+A:\c#\MartinMatta_MerlinCore\MartinMatta_MerlinCore\bin\Debug\net6.0\resources\icicle.png
