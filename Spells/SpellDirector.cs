@@ -1,5 +1,6 @@
 ﻿using MartinMatta_MerlinCore.Actors;
 using MartinMatta_MerlinCore.Spells.Interfaces;
+using Merlin2d.Game.Actors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +46,9 @@ namespace MartinMatta_MerlinCore.Spells
                     {
                         this.wizard.ChangeMana(-50);
                         this.selfCastSpellBuilder.Spell = spellName;
-                        return this.selfCastSpellBuilder.AddEffect("speedup").AddEffect("heal").CreateSpell(wizard);
+                        ISpell spell = this.selfCastSpellBuilder.AddEffect("speedup").AddEffect("heal").CreateSpell(wizard);
+                        this.wizard.GetWorld().AddActor((IActor)spell);
+                        return spell;
                     }
                 }
                 return null;

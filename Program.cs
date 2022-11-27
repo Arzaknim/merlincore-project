@@ -6,7 +6,7 @@ using Merlin2d.Game.Actors;
 
 namespace MartinMatta_MerlinCore
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {

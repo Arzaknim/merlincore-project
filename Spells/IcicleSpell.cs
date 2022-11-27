@@ -12,8 +12,9 @@ namespace MartinMatta_MerlinCore.Spells
     {
         public IcicleSpell(AbstractCharacter caster, int speed, int range) : base(caster, speed, range)
         {
-            this.OnAddedToWorld(caster.GetWorld());
             this.animation = new Animation("resources/icicle.png", 9, 6);
+            this.OnAddedToWorld(caster.GetWorld());
+            this.SetAnimation(this.animation);
             this.GetAnimation().Start();
         }
     }
