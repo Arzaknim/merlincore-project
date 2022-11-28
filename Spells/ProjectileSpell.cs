@@ -21,10 +21,12 @@ namespace MartinMatta_MerlinCore.Spells
         private NormalSpeedStrategy normalSpeedStrategy;
         private SpellInfo info;
         private ActorOrientation initialOrientation;
+        private IEnumerable<ICommand> effects;
 
         private int spellRange;
         private int distanceTravelled;
         private bool hitATarget;
+        private int lastX;
 
         public ProjectileSpell(AbstractCharacter caster, int speed, int range)
         {
@@ -42,22 +44,31 @@ namespace MartinMatta_MerlinCore.Spells
             this.spellRange = range;
             this.distanceTravelled = 0;
             this.hitATarget = false;
-
+            this.lastX = 0;
+            this.effects = new List<ICommand>();
         }
 
         public ISpell AddEffect(ICommand effect)
         {
-            throw new NotImplementedException();
+            this.effects.Append(effect);
+            return this;
         }
 
         public void AddEffects(IEnumerable<ICommand> effects)
         {
-            throw new NotImplementedException();
+            foreach (ICommand effectItem in effects)
+            {
+                this.effects.Append(effectItem);
+            }
         }
 
         public void ApplyEffects(ICharacter target)
         {
-            throw new NotImplementedException();
+            foreach(ICommand effectItem in this.effects)
+            {
+                ((SpellEffect)effectItem).SetTarget((AbstractCharacter)target);
+                effectItem.Execute();
+            }
         }
 
         public int GetCost()
@@ -76,15 +87,13 @@ namespace MartinMatta_MerlinCore.Spells
 
         public override void Update()
         {
-            if (!this.hitATarget)
+            if (!this.hitATarget && this.lastX != this.GetX() )
             {
+                this.lastX = this.GetX();
                 if (this.distanceTravelled < this.spellRange)
                 {
-                    this.distanceTravelled += 2;
-                    if (this.initialOrientation == ActorOrientation.RIGHT)
-                        this.SetPosition(this.GetX() + this.distanceTravelled, this.GetY());
-                    else
-                        this.SetPosition(this.GetX() - this.distanceTravelled, this.GetY());
+                    this.distanceTravelled += (int)this.GetSpeed();
+                    this.forward.Execute();
                 }
                 List<IActor> enemies = this.GetWorld().GetActors().FindAll(x => x.GetName() == "Spooky Scary Skeleton");
                 foreach (IActor enemyItem in enemies)
@@ -92,8 +101,8 @@ namespace MartinMatta_MerlinCore.Spells
                     if (this.IntersectsWithActor(enemyItem))
                     {
                         this.hitATarget = true;
-                        ((AbstractCharacter)enemyItem).ChangeHealth(-25);
-
+                        //((AbstractCharacter)enemyItem).ChangeHealth(-25);
+                        this.ApplyEffects((AbstractCharacter)enemyItem);
                     }
                 }
             }

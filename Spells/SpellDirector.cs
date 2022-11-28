@@ -37,7 +37,7 @@ namespace MartinMatta_MerlinCore.Spells
                     {
                         this.wizard.ChangeMana(-25);
                         this.projectileSpellBuilder.Spell = spellName;
-                        ISpell spell = this.projectileSpellBuilder.AddEffect("frostbite").CreateSpell(wizard);
+                        ISpell spell = this.projectileSpellBuilder.AddEffect("frostbite").AddEffect("OnHitDamage").CreateSpell(wizard);
                         this.wizard.GetWorld().AddActor((IActor)spell);
                         ((IActor)spell).SetPhysics(false);
                         return spell;
