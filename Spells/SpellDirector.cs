@@ -50,8 +50,8 @@ namespace MartinMatta_MerlinCore.Spells
                     {
                         this.wizard.ChangeMana(-50);
                         this.selfCastSpellBuilder.Spell = spellName;
-                        this.projectileSpellBuilder.EmptyEffectsList();
-                        return this.selfCastSpellBuilder.AddEffect("speedup").AddEffect("heal").CreateSpell(wizard);
+                        this.selfCastSpellBuilder.EmptyEffectsList();
+                        return this.selfCastSpellBuilder.AddEffect("SpeedUp").AddEffect("Heal").CreateSpell(wizard);
                     }
                 }
                 return null;

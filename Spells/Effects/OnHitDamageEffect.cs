@@ -17,7 +17,7 @@ namespace MartinMatta_MerlinCore.Spells.Effects
 
         public override void Execute()
         {
-            this.target.ChangeHealth(deltaHP);
+            this.target.ChangeHealth(this.deltaHP);
         }
     }
 }

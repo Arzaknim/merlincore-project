@@ -15,6 +15,14 @@ namespace MartinMatta_MerlinCore.Spells
             {
                 return new OnHitDamageEffect(-50);
             }
+            else if (effectName == "Heal")
+            {
+                return new HealEffect(25);
+            }
+            else if (effectName == "SpeedUp")
+            {
+                return new SpeedUpEffect();
+            }
             return null;
         }
     }

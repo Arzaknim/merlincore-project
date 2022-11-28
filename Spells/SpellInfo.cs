@@ -14,5 +14,12 @@ namespace MartinMatta_MerlinCore.Spells
         public string AnimationPath { get; set; }
         public int AnimationWidth { get; set; }
         public int AnimationHeight { get; set; }
+
+        /*public static implicit operator SpellInfo(string data)
+        {
+            //magic & stuff
+
+            return spellInfo;
+        }*/
     }
 }

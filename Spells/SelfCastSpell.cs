@@ -1,4 +1,5 @@
-﻿using MartinMatta_MerlinCore.Actors.Interfaces;
+﻿using MartinMatta_MerlinCore.Actors;
+using MartinMatta_MerlinCore.Actors.Interfaces;
 using MartinMatta_MerlinCore.Spells.Interfaces;
 using Merlin2d.Game.Actions;
 using System;
@@ -11,19 +12,35 @@ namespace MartinMatta_MerlinCore.Spells
 {
     public class SelfCastSpell : ISpell
     {
+        private IEnumerable<ICommand> effects;
+
+        public SelfCastSpell(IEnumerable<ICommand> effects)
+        {
+            this.effects = new List<ICommand>();
+            this.AddEffects(effects);
+        }
+
         public ISpell AddEffect(ICommand effect)
         {
-            throw new NotImplementedException();
+            ((List<ICommand>)this.effects).Add(effect);
+            return this;
         }
 
         public void AddEffects(IEnumerable<ICommand> effects)
         {
-            throw new NotImplementedException();
+            foreach (ICommand effectItem in effects)
+            {
+                ((List<ICommand>)this.effects).Add(effectItem);
+            }
         }
 
         public void ApplyEffects(ICharacter target)
         {
-            throw new NotImplementedException();
+            foreach (ICommand effectItem in this.effects)
+            {
+                ((SpellEffect)effectItem).SetTarget((AbstractCharacter)target);
+                effectItem.Execute();
+            }
         }
 
         public int GetCost()

@@ -59,8 +59,8 @@ namespace MartinMatta_MerlinCore.Actors
         public override void Update()
         {
             //Console.WriteLine(this.speed);
-            /*Console.WriteLine(this.GetHealth());
-            Console.WriteLine(this.GetMana());*/
+            Console.WriteLine(this.GetHealth());
+            Console.WriteLine(this.GetMana());
             //Console.WriteLine(this.strategy);
             IActor enemy = this.GetWorld().GetActors().Find(x => x.GetName() == "Spooky Scary Skeleton");
             if(this.GetHealth() > 0)
@@ -68,21 +68,21 @@ namespace MartinMatta_MerlinCore.Actors
                 manaRechargeCounter++;
                 if(manaRechargeCounter == 90)
                 {
-                    this.ChangeMana(2);
+                    this.ChangeMana(5);
                     this.manaRechargeCounter = 0;
+                }
+                if (this.strategy is SpeedUpSpeedStrategy)
+                {
+                    if (this.speedUpCounter == 180)
+                    {
+                        this.speedUpCounter = 0;
+                        this.strategy = this.normalSpeedStrategy;
+                    }
+                    this.speedUpCounter++;
                 }
                 if (enemy != null)
                 {
-                    if (this.strategy is SpeedUpSpeedStrategy)
-                    {
-                        if (this.speedUpCounter == 180)
-                        {
-                            this.speedUpCounter = 0;
-                            this.strategy = this.normalSpeedStrategy;
-                        }
-                        this.speedUpCounter++;
-                    }
-                    else if (this.IntersectsWithActor(enemy))
+                    if (this.IntersectsWithActor(enemy))
                     {
                         //Console.WriteLine("intersects");
                         if (this.intersectCounter == 5)
@@ -131,7 +131,8 @@ namespace MartinMatta_MerlinCore.Actors
 
                 if (Input.GetInstance().IsKeyPressed(Input.Key.Q))
                 {
-                    this.spellDirector.Build("Into the Fray!");
+                    ISpell spell = this.spellDirector.Build("Into the Fray!");
+                    spell.ApplyEffects(this);
                 }
                 else if (Input.GetInstance().IsKeyPressed(Input.Key.E))
                 {
