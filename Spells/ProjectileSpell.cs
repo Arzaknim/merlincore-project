@@ -74,7 +74,12 @@ namespace MartinMatta_MerlinCore.Spells
 
         public int GetCost()
         {
-            throw new NotImplementedException();
+            int result = 0;
+            foreach (ICommand effectItem in this.effects)
+            {
+                result += ((AbstractSpellEffect)effectItem).GetCost();
+            }
+            return result;
         }
 
         public double GetSpeed()

@@ -15,6 +15,9 @@ namespace MartinMatta_MerlinCore.Spells
         private SelfCastSpellBuilder selfCastSpellBuilder;
         private IWizard wizard;
 
+        private Dictionary<string, int> effectCost;
+        Dictionary<string, SpellInfo> effectSpell;
+
         private List<string> spells;
 
         public SpellDirector(IWizard wizard)
@@ -33,26 +36,38 @@ namespace MartinMatta_MerlinCore.Spells
             {
                 if(spellName == "icicle")
                 {
-                    if(this.wizard.GetMana() >= 25)
+                    this.projectileSpellBuilder.Spell = spellName;
+                    this.projectileSpellBuilder.EmptyEffectsList();
+                    ISpell spell = this.projectileSpellBuilder.AddEffect("Frostbite").AddEffect("OnHitDamage").CreateSpell(wizard);
+                    int cost = spell.GetCost();
+                    if(this.wizard.GetMana() >= cost)
                     {
-                        this.wizard.ChangeMana(-25);
-                        this.projectileSpellBuilder.Spell = spellName;
-                        this.projectileSpellBuilder.EmptyEffectsList();
-                        ISpell spell = this.projectileSpellBuilder.AddEffect("Frostbite").AddEffect("OnHitDamage").CreateSpell(wizard);
+                        this.wizard.ChangeMana(-cost);
                         this.wizard.GetWorld().AddActor((IActor)spell);
                         ((IActor)spell).SetPhysics(false);
-                        return spell;
                     }
+                    else
+                    {
+                        spell = null;
+                    }
+                    return spell;
                 }
                 else if(spellName == "Into the Fray!")
                 {
-                    if(this.wizard.GetMana() >= 50)
+                    this.selfCastSpellBuilder.Spell = spellName;
+                    this.selfCastSpellBuilder.EmptyEffectsList();
+
+                    ISpell spell = this.selfCastSpellBuilder.AddEffect("SpeedUp").AddEffect("Heal").CreateSpell(wizard);
+                    int cost = spell.GetCost();
+                    if (this.wizard.GetMana() >= cost)
                     {
-                        this.wizard.ChangeMana(-50);
-                        this.selfCastSpellBuilder.Spell = spellName;
-                        this.selfCastSpellBuilder.EmptyEffectsList();
-                        return this.selfCastSpellBuilder.AddEffect("SpeedUp").AddEffect("Heal").CreateSpell(wizard);
+                        this.wizard.ChangeMana(-cost);
                     }
+                    else
+                    {
+                        spell = null;
+                    }
+                    return spell;
                 }
                 return null;
             }

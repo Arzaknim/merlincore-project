@@ -9,6 +9,10 @@ namespace MartinMatta_MerlinCore.Spells.Effects
 {
     public class FrostbiteEffect : AbstractSpellEffect
     {
+        public FrostbiteEffect(int cost) : base(cost)
+        {
+        }
+
         public override void Execute()
         {
             this.target.SetSpeedStrategy(new ModifiedSpeedStrategy());

@@ -12,6 +12,7 @@ namespace MartinMatta_MerlinCore.Spells
     {
         private string name;
         protected SpellType type;
+        protected int cost;
         protected AbstractCharacter target;
 
         public string Name {
@@ -19,10 +20,22 @@ namespace MartinMatta_MerlinCore.Spells
             set { name = value; }
         }
 
+        public AbstractSpellEffect(int cost)
+        {
+            this.cost = cost;
+        }
+
+        public int GetCost()
+        {
+            return this.cost;
+        }
+
         public void SetTarget(AbstractCharacter target)
         {
             this.target = target;
         }
+
+
 
         public abstract void Execute();
     }

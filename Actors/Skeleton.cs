@@ -55,7 +55,7 @@ namespace MartinMatta_MerlinCore.Actors
         {
             //Console.WriteLine(this.GetHealth());
             IActor player = this.GetWorld().GetActors().Find(x => x.GetName() == "Merlin");
-            Console.WriteLine(this.strategy);
+            //Console.WriteLine(this.strategy);
             if (this.GetHealth() > 0)
             {
                 if (player != null)

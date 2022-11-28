@@ -59,8 +59,8 @@ namespace MartinMatta_MerlinCore.Actors
         public override void Update()
         {
             //Console.WriteLine(this.speed);
-            /*Console.WriteLine(this.GetHealth());
-            Console.WriteLine(this.GetMana());*/
+            Console.WriteLine(this.GetHealth());
+            Console.WriteLine(this.GetMana());
             //Console.WriteLine(this.strategy);
             IActor enemy = this.GetWorld().GetActors().Find(x => x.GetName() == "Spooky Scary Skeleton");
             if(this.GetHealth() > 0)
@@ -135,7 +135,8 @@ namespace MartinMatta_MerlinCore.Actors
                 if (Input.GetInstance().IsKeyPressed(Input.Key.Q))
                 {
                     ISpell spell = this.spellDirector.Build("Into the Fray!");
-                    spell.ApplyEffects(this);
+                    if(spell != null)
+                        spell.ApplyEffects(this);
                 }
                 else if (Input.GetInstance().IsKeyPressed(Input.Key.E))
                 {

@@ -10,7 +10,7 @@ namespace MartinMatta_MerlinCore.Spells.Effects
     {
         private int deltaHP;
 
-        public HealEffect(int deltaHP)
+        public HealEffect(int cost, int deltaHP) : base(cost)
         {
             this.deltaHP = deltaHP;
         }
