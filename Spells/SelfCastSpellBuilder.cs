@@ -15,6 +15,7 @@ namespace MartinMatta_MerlinCore.Spells
         private AbstractWizardCharacter wizard;
         private IEnumerable<ICommand> effects;
         private SpeedUpSpeedStrategy speedUpSpeedStrategy;
+        private SpellEffectFactory factory;
 
         private string spellToExecute;
 
@@ -29,6 +30,7 @@ namespace MartinMatta_MerlinCore.Spells
         {
             this.wizard = (AbstractWizardCharacter)wizard;
             this.speedUpSpeedStrategy = new SpeedUpSpeedStrategy();
+            this.factory = new SpellEffectFactory();
         }
 
         public ISpellBuilder AddEffect(string effectName)

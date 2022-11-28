@@ -37,7 +37,8 @@ namespace MartinMatta_MerlinCore.Spells
                     {
                         this.wizard.ChangeMana(-25);
                         this.projectileSpellBuilder.Spell = spellName;
-                        ISpell spell = this.projectileSpellBuilder.AddEffect("frostbite").CreateSpell(wizard);
+                        this.projectileSpellBuilder.EmptyEffectsList();
+                        ISpell spell = this.projectileSpellBuilder.AddEffect("frostbite").AddEffect("OnHitDamage").CreateSpell(wizard);
                         this.wizard.GetWorld().AddActor((IActor)spell);
                         ((IActor)spell).SetPhysics(false);
                         return spell;
@@ -49,6 +50,7 @@ namespace MartinMatta_MerlinCore.Spells
                     {
                         this.wizard.ChangeMana(-50);
                         this.selfCastSpellBuilder.Spell = spellName;
+                        this.projectileSpellBuilder.EmptyEffectsList();
                         return this.selfCastSpellBuilder.AddEffect("speedup").AddEffect("heal").CreateSpell(wizard);
                     }
                 }

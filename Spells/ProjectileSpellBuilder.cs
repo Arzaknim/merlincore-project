@@ -13,6 +13,7 @@ namespace MartinMatta_MerlinCore.Spells
     public class ProjectileSpellBuilder : ISpellBuilder
     {
 
+        private SpellEffectFactory factory;
         private IEnumerable<ICommand> effects;
         //private AbstractWizardCharacter wizard;
 
@@ -24,10 +25,19 @@ namespace MartinMatta_MerlinCore.Spells
             set { this.spellToExecute = value; }
         }
 
+        public ProjectileSpellBuilder()
+        {
+            this.factory = new SpellEffectFactory();
+        }
+
         public ISpellBuilder AddEffect(string effectName)
         {
             if(effectName == "frostbite")
             {
+            }
+            else if(effectName == "OnHitDamage")
+            {
+                ((List<ICommand>)this.effects).Add(this.factory.CreateEffect(effectName));
             }
             return this;
         }
@@ -36,7 +46,7 @@ namespace MartinMatta_MerlinCore.Spells
         {
             if (this.Spell == "icicle")
             {
-                return new IcicleSpell((AbstractCharacter)wizard, 5, 160);
+                return new IcicleSpell((AbstractCharacter)wizard, 10, 160, this.effects);
             }
             return null;
         }
@@ -49,6 +59,11 @@ namespace MartinMatta_MerlinCore.Spells
         public ISpellBuilder SetSpellCost(int cost)
         {
             throw new NotImplementedException();
+        }
+
+        public void EmptyEffectsList()
+        {
+            this.effects = new List<ICommand>();
         }
     }
 }

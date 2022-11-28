@@ -1,5 +1,6 @@
 ﻿using MartinMatta_MerlinCore.Actors;
 using Merlin2d.Game;
+using Merlin2d.Game.Actions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace MartinMatta_MerlinCore.Spells
 {
     public class IcicleSpell : ProjectileSpell
     {
-        public IcicleSpell(AbstractCharacter caster, int speed, int range) : base(caster, speed, range)
+        public IcicleSpell(AbstractCharacter caster, int speed, int range, IEnumerable<ICommand> effects) : base(caster, speed, range, effects)
         {
             this.animation = new Animation("resources/icicle.png", 9, 6);
             this.OnAddedToWorld(caster.GetWorld());
