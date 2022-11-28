@@ -28,7 +28,7 @@ namespace MartinMatta_MerlinCore.Spells
         private bool hitATarget;
         private int lastX;
 
-        public ProjectileSpell(AbstractCharacter caster, int speed, int range)
+        public ProjectileSpell(AbstractCharacter caster, int speed, int range, IEnumerable<ICommand> effects)
         {
             this.caster = caster;
             int casterFrontX = this.caster.GetX() + this.caster.GetAnimation().GetWidth();
@@ -46,11 +46,12 @@ namespace MartinMatta_MerlinCore.Spells
             this.hitATarget = false;
             this.lastX = 0;
             this.effects = new List<ICommand>();
+            this.AddEffects(effects);
         }
 
         public ISpell AddEffect(ICommand effect)
         {
-            this.effects.Append(effect);
+            ((List<ICommand>)this.effects).Add(effect);
             return this;
         }
 
@@ -58,7 +59,7 @@ namespace MartinMatta_MerlinCore.Spells
         {
             foreach (ICommand effectItem in effects)
             {
-                this.effects.Append(effectItem);
+                ((List<ICommand>)this.effects).Add(effectItem);
             }
         }
 
