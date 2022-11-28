@@ -9,7 +9,7 @@ namespace MartinMatta_MerlinCore.Spells
 {
     public class SpellEffectFactory
     {
-        public SpellEffect CreateEffect(string effectName)
+        public AbstractSpellEffect CreateEffect(string effectName)
         {
             if(effectName == "OnHitDamage")
             {
@@ -22,6 +22,10 @@ namespace MartinMatta_MerlinCore.Spells
             else if (effectName == "SpeedUp")
             {
                 return new SpeedUpEffect();
+            }
+            else if (effectName == "Frostbite")
+            {
+                return new FrostbiteEffect();
             }
             return null;
         }

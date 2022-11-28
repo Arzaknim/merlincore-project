@@ -67,7 +67,7 @@ namespace MartinMatta_MerlinCore.Spells
         {
             foreach(ICommand effectItem in this.effects)
             {
-                ((SpellEffect)effectItem).SetTarget((AbstractCharacter)target);
+                ((AbstractSpellEffect)effectItem).SetTarget((AbstractCharacter)target);
                 effectItem.Execute();
             }
         }

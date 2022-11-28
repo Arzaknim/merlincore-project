@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace MartinMatta_MerlinCore.Spells.Effects
 {
-    public class OnHitDamageEffect : AbstractSpellEffect
+    public class HealEffect : AbstractSpellEffect
     {
         private int deltaHP;
 
-        public OnHitDamageEffect(int deltaHP)
+        public HealEffect(int deltaHP)
         {
             this.deltaHP = deltaHP;
         }

@@ -32,8 +32,9 @@ namespace MartinMatta_MerlinCore.Spells
 
         public ISpellBuilder AddEffect(string effectName)
         {
-            if(effectName == "frostbite")
+            if(effectName == "Frostbite")
             {
+                ((List<ICommand>)this.effects).Add(this.factory.CreateEffect(effectName));
             }
             else if(effectName == "OnHitDamage")
             {

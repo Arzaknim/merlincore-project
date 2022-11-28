@@ -16,6 +16,9 @@ namespace MartinMatta_MerlinCore.Actors
 
         private int n;
         private IActor player;
+        private NormalSpeedStrategy normalSpeedStrategy;
+
+        private int modifiedCounter;
 
         private Random rng;
         private Move moveUp;
@@ -28,7 +31,8 @@ namespace MartinMatta_MerlinCore.Actors
         {
             this.speed = speed;
             this.animation = new Animation("resources/sprites/skeleton.png", 33, 47);
-            this.strategy = new NormalSpeedStrategy();
+            this.normalSpeedStrategy = new NormalSpeedStrategy();
+            this.strategy = this.normalSpeedStrategy;
             this.rng = new Random();
             this.n = n;
             Console.WriteLine("speed");
@@ -43,16 +47,28 @@ namespace MartinMatta_MerlinCore.Actors
             this.SetPosition(x, y);
             this.SetAnimation(this.animation);
             this.GetAnimation().Start();
+
+            this.modifiedCounter = 0;
         }
 
         public override void Update()
         {
             //Console.WriteLine(this.GetHealth());
             IActor player = this.GetWorld().GetActors().Find(x => x.GetName() == "Merlin");
-            if(this.GetHealth() > 0)
+            Console.WriteLine(this.strategy);
+            if (this.GetHealth() > 0)
             {
                 if (player != null)
                 {
+                    if (this.strategy is ModifiedSpeedStrategy)
+                    {
+                        if (this.modifiedCounter == 180)
+                        {
+                            this.modifiedCounter = 0;
+                            this.strategy = this.normalSpeedStrategy;
+                        }
+                        this.modifiedCounter++;
+                    }
                     if (this.IsPlayerClose())
                     {
                         int dx = this.player.GetX() - this.GetX();

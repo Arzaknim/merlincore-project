@@ -59,8 +59,8 @@ namespace MartinMatta_MerlinCore.Actors
         public override void Update()
         {
             //Console.WriteLine(this.speed);
-            Console.WriteLine(this.GetHealth());
-            Console.WriteLine(this.GetMana());
+            /*Console.WriteLine(this.GetHealth());
+            Console.WriteLine(this.GetMana());*/
             //Console.WriteLine(this.strategy);
             IActor enemy = this.GetWorld().GetActors().Find(x => x.GetName() == "Spooky Scary Skeleton");
             if(this.GetHealth() > 0)
@@ -80,22 +80,25 @@ namespace MartinMatta_MerlinCore.Actors
                     }
                     this.speedUpCounter++;
                 }
-                if (enemy != null)
+                else
                 {
-                    if (this.IntersectsWithActor(enemy))
+                    if (enemy != null)
                     {
-                        //Console.WriteLine("intersects");
-                        if (this.intersectCounter == 5)
+                        if (this.IntersectsWithActor(enemy))
                         {
-                            this.intersectCounter = 0;
-                            this.ChangeHealth(-5);
+                            //Console.WriteLine("intersects");
+                            if (this.intersectCounter == 5)
+                            {
+                                this.intersectCounter = 0;
+                                this.ChangeHealth(-5);
+                            }
+                            this.intersectCounter++;
+                            this.strategy = this.modifiedSpeedStrategy;
                         }
-                        this.intersectCounter++;
-                        this.strategy = this.modifiedSpeedStrategy;
-                    }
-                    else
-                    {
-                        this.strategy = this.normalSpeedStrategy;
+                        else
+                        {
+                            this.strategy = this.normalSpeedStrategy;
+                        }
                     }
                 }
                 if (Input.GetInstance().IsKeyDown(Input.Key.UP))
