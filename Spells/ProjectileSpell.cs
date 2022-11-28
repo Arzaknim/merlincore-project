@@ -24,6 +24,7 @@ namespace MartinMatta_MerlinCore.Spells
 
         private int spellRange;
         private int distanceTravelled;
+        private bool hitATarget;
 
         public ProjectileSpell(AbstractCharacter caster, int speed, int range)
         {
@@ -40,6 +41,7 @@ namespace MartinMatta_MerlinCore.Spells
                 this.forward = new Move(this, -1, 0);
             this.spellRange = range;
             this.distanceTravelled = 0;
+            this.hitATarget = false;
 
         }
 
@@ -74,26 +76,30 @@ namespace MartinMatta_MerlinCore.Spells
 
         public override void Update()
         {
-            if(this.distanceTravelled < this.spellRange)
+            if (!this.hitATarget)
             {
-                this.distanceTravelled += 2;
-                if(this.initialOrientation == ActorOrientation.RIGHT)
-                    this.SetPosition(this.GetX() + this.distanceTravelled, this.GetY());
-                else
-                    this.SetPosition(this.GetX() - this.distanceTravelled, this.GetY());
+                if (this.distanceTravelled < this.spellRange)
+                {
+                    this.distanceTravelled += 2;
+                    if (this.initialOrientation == ActorOrientation.RIGHT)
+                        this.SetPosition(this.GetX() + this.distanceTravelled, this.GetY());
+                    else
+                        this.SetPosition(this.GetX() - this.distanceTravelled, this.GetY());
+                }
+                List<IActor> enemies = this.GetWorld().GetActors().FindAll(x => x.GetName() == "Spooky Scary Skeleton");
+                foreach (IActor enemyItem in enemies)
+                {
+                    if (this.IntersectsWithActor(enemyItem))
+                    {
+                        this.hitATarget = true;
+                        ((AbstractCharacter)enemyItem).ChangeHealth(-25);
+
+                    }
+                }
             }
             else
             {
                 this.RemoveFromWorld();
-            }
-            List<IActor> enemies = this.GetWorld().GetActors().FindAll(x => x.GetName() == "Spooky Scary Skeleton");
-            foreach (IActor enemyItem in enemies)
-            {
-                if (this.IntersectsWithActor(enemyItem))
-                {
-                    ((AbstractCharacter)enemyItem).ChangeHealth(-25);
-
-                }
             }
         }
     }
