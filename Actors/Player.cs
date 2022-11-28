@@ -15,14 +15,18 @@ namespace MartinMatta_MerlinCore.Actors
         private int intersectCounter;
         private int speedUpCounter;
         private int manaRechargeCounter;
+        private int lastY;
 
         private NormalSpeedStrategy normalSpeedStrategy;
         private ModifiedSpeedStrategy modifiedSpeedStrategy;
+
+        private bool hasJumped;
         
         private ICommand moveUp;
         private ICommand moveDown;
         private ICommand moveRight;
         private ICommand moveLeft;
+        private Jump<IActor> jump;
 
         private ISpellDirector spellDirector;
 
@@ -53,7 +57,9 @@ namespace MartinMatta_MerlinCore.Actors
             this.moveDown = new Move(this, 0, 1);
             this.moveRight = new Move(this, 1, 0);
             this.moveLeft = new Move(this, -1, 0);
+            this.jump = new Jump<IActor>(this, 220);
             this.orientation = ActorOrientation.RIGHT;
+            this.lastY = 0;
         }
 
         public override void Update()
@@ -101,10 +107,12 @@ namespace MartinMatta_MerlinCore.Actors
                         }
                     }
                 }
-                if (Input.GetInstance().IsKeyDown(Input.Key.UP))
+                if (Input.GetInstance().IsKeyDown(Input.Key.UP) && !this.hasJumped)
                 {
+                    this.hasJumped = true;
                     animation.Start();
-                    this.moveUp.Execute();
+                    //this.moveUp.Execute();
+                    this.jump.Execute(this);
                 }
                 else if (Input.GetInstance().IsKeyDown(Input.Key.DOWN))
                 {
@@ -142,6 +150,12 @@ namespace MartinMatta_MerlinCore.Actors
                 {
                     this.spellDirector.Build("icicle");
                 }
+
+                if(this.hasJumped && this.lastY == this.GetY())
+                {
+                    this.hasJumped = false;
+                }
+                this.lastY = this.GetY();
             }
             else
             {

@@ -18,18 +18,26 @@ namespace MartinMatta_MerlinCore.Factories
             if(actorType == "player")
             {
                 actor = new Player(x, y, 9);
-                actor.SetPhysics(false);
+                actor.SetPhysics(true);
                 actor.SetName(actorName);
                 actor.SetPosition(x, y);
 
             }
-           else if (actorType == "skeleton")
+            else if (actorType == "skeleton")
             {
                 actor = new Skeleton(150, x, y, 4.5);
                 actor.SetPhysics(false);
                 actor.SetName(actorName);
                 actor.SetPosition(x, y);
                 
+            }
+            else if (actorType == "pressureplate")
+            {
+                actor = new PressurePlate(x, y);
+                actor.SetPhysics(true);
+                actor.SetName(actorName);
+                actor.SetPosition(x, y);
+
             }
             else
             {

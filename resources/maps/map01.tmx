@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="50" height="37" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="9">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="50" height="37" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="10">
  <tileset firstgid="1" name="tileset_basic" tilewidth="16" tileheight="16" tilecount="960" columns="32">
   <image source="tilesets/tileset_basic.png" width="512" height="480"/>
  </tileset>
  <layer id="1" name="background" width="50" height="37">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAACu2XWwqDQAxFR6GPNehKWmcBXUqX5lK6hT5+aruQRppAHcqoYwduaA4c4gOZDFcJVoVzFVkrrr17tlFce1tWK9L/idWK9G95YGB5YGF5YGF5YGF5YGF5YGF5YGF5YJGax5m8sNcM9TZzH20xdCq7kf/lpf/afua7kboPNP79+0DD8hiyKp1bkxtyW+Z/LsTywCLMQ+ZbzpkVI3X9MI+x+faLmRUjdX37PrCQ/g+sVqT/I6sV6b9xb32kxu4trf7LGlOO6+D6nWZpRz7Y7uNcS32SL4UPh1boHAAA
+   H4sIAAAAAAAACu2Xbw6CMAzFgWPASZQdwKN4IeMVOIpX8M8X0YM4sjbRhYxRJL7GvuSXDvphbR5LWV0WRe1pFMeBLdEqjgMdMaZDFUDOcf0n4tf1SHNcv/mBkTM/sHLmB1Yuxw8NyvFDg8wPLJkfWDI/sGR+YEnqx9lzIa4rxNvMPrryk1xtJu7LS+/abua3Ie3jWAVQJD0faH1IzwdaH+YHVh/mB1YfsR8839acWSlJ94/9mJpv35hZKUn3//f/KzRx/TtCq7j+PaFVXH9bBFwipnJLoxvZI2fdRO/vfhb0ngfRvz1riU/PC9bg3S3oHAAA
   </data>
  </layer>
  <layer id="2" name="walls" width="50" height="37" visible="0">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAACu3XwQkAIQwF0YB9pf+ybELiJJmBf119F2HzRKTDrWs6WOlgpYOVDlY6WOlgpYOVDlbbHbR/0+0OWjpY6Xjznd/n05rqqHjrK+4zxdE1HaymOhxjF9maLMjoHAAA
+   H4sIAAAAAAAACu3UwQkAIQwAQcG+7L8s/yKIYHTVXcgrBG7uYckpFQc3vW7Y6WDtdLB2Oli7nxw3pIOVDlY6WOlg9bujvYsYHfN3lHToiEiHjohOvPU7vmeFY2ScuT39X3eng9WrDocxFWFM71/oHAAA
   </data>
  </layer>
  <objectgroup id="3" name="objects">
@@ -19,9 +19,14 @@
     <property name="Type" value="player"/>
    </properties>
   </object>
-  <object id="2" name="Spooky Scary Skeleton" class="skeleton" x="658.15" y="331.119" width="34.7471" height="61.3183">
+  <object id="2" name="Spooky Scary Skeleton" class="skeleton" x="683.15" y="218.119" width="34.7471" height="61.3183">
    <properties>
     <property name="Type" value="skeleton"/>
+   </properties>
+  </object>
+  <object id="9" name="PressurePlate" class="pressureplate" x="231" y="452" width="20" height="10">
+   <properties>
+    <property name="Type" value="pressureplate"/>
    </properties>
   </object>
  </objectgroup>
