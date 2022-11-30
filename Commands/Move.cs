@@ -83,7 +83,9 @@ namespace MartinMatta_MerlinCore.Commands
             this.actor.SetPosition(newX, newY);
 
             if (this.actor.GetWorld().IntersectWithWall(this.actor))
+            {
                 this.actor.SetPosition(oldX, oldY);
+            }
         }
     }
 }

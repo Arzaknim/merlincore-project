@@ -27,7 +27,7 @@ namespace MartinMatta_MerlinCore.Actors
         private Move moveRight;
         private Move lastMove;
 
-        public Skeleton(int n, int x, int y, double speed)
+        public Skeleton(int n, double speed)
         {
             this.speed = speed;
             this.animation = new Animation("resources/sprites/skeleton.png", 33, 47);
@@ -44,7 +44,6 @@ namespace MartinMatta_MerlinCore.Actors
             this.moveRight = new Move(this, 1, 0);
             this.lastMove = this.moveRight;
 
-            this.SetPosition(x, y);
             this.SetAnimation(this.animation);
             this.GetAnimation().Start();
 

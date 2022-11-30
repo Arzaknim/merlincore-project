@@ -20,7 +20,7 @@ namespace MartinMatta_MerlinCore.Actors
         private NormalSpeedStrategy normalSpeedStrategy;
         private ModifiedSpeedStrategy modifiedSpeedStrategy;
 
-        private bool hasJumped;
+        private bool canJump;
         
         private ICommand moveUp;
         private ICommand moveDown;
@@ -68,7 +68,7 @@ namespace MartinMatta_MerlinCore.Actors
             Console.WriteLine(this.GetHealth());
             Console.WriteLine(this.GetMana());
             //Console.WriteLine(this.strategy);
-            IActor enemy = this.GetWorld().GetActors().Find(x => x.GetName() == "Spooky Scary Skeleton");
+            List<IActor> enemies = this.GetWorld().GetActors().FindAll(x => x.GetName() == "Spooky Scary Skeleton");
             if(this.GetHealth() > 0)
             {
                 manaRechargeCounter++;
@@ -88,28 +88,31 @@ namespace MartinMatta_MerlinCore.Actors
                 }
                 else
                 {
-                    if (enemy != null)
+                    if (enemies != null || enemies.Count() == 0)
                     {
-                        if (this.IntersectsWithActor(enemy))
+                        foreach(IActor enemyItem in enemies)
                         {
-                            //Console.WriteLine("intersects");
-                            if (this.intersectCounter == 5)
+                            if (this.IntersectsWithActor(enemyItem))
                             {
-                                this.intersectCounter = 0;
-                                this.ChangeHealth(-5);
+                                //Console.WriteLine("intersects");
+                                if (this.intersectCounter == 5)
+                                {
+                                    this.intersectCounter = 0;
+                                    this.ChangeHealth(-5);
+                                }
+                                this.intersectCounter++;
+                                this.strategy = this.modifiedSpeedStrategy;
                             }
-                            this.intersectCounter++;
-                            this.strategy = this.modifiedSpeedStrategy;
-                        }
-                        else
-                        {
-                            this.strategy = this.normalSpeedStrategy;
+                            else
+                            {
+                                this.strategy = this.normalSpeedStrategy;
+                            }
                         }
                     }
                 }
-                if (Input.GetInstance().IsKeyDown(Input.Key.UP) && !this.hasJumped)
+                if (Input.GetInstance().IsKeyDown(Input.Key.UP) && this.canJump)
                 {
-                    this.hasJumped = true;
+                    this.canJump = false;
                     animation.Start();
                     //this.moveUp.Execute();
                     this.jump.Execute(this);
@@ -151,9 +154,13 @@ namespace MartinMatta_MerlinCore.Actors
                     this.spellDirector.Build("icicle");
                 }
 
-                if(this.hasJumped && this.lastY == this.GetY())
+                if(!this.canJump && this.lastY == this.GetY())
                 {
-                    this.hasJumped = false;
+                    this.canJump = true;
+                }
+                else if(this.lastY != this.GetY())
+                {
+                    this.canJump = false;
                 }
                 this.lastY = this.GetY();
             }

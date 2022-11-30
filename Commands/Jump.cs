@@ -25,7 +25,6 @@ namespace MartinMatta_MerlinCore.Commands
             this.actor = (IActor)movable;
             this.step = step;
             this.moveUp = new Move(movable, 0, -1);
-            int meow = (int)movable.GetSpeed();
         }
 
         public void Execute(T value)
