@@ -5,7 +5,7 @@ using Merlin2d.Game.Actors;
 
 namespace MartinMatta_MerlinCore.Commands
 {
-    public class Move : ICommand
+    public class Move : IMovement
     {
         private IActor actor;
         private double step;
@@ -27,7 +27,7 @@ namespace MartinMatta_MerlinCore.Commands
             this.dx = dx;
             this.dy = dy;
         }
-        public void Execute()
+        public bool Execute()
         {
             this.step = ((IMovable)(this.actor)).GetSpeed();
             //Console.WriteLine(this.step);
@@ -85,7 +85,9 @@ namespace MartinMatta_MerlinCore.Commands
             if (this.actor.GetWorld().IntersectWithWall(this.actor))
             {
                 this.actor.SetPosition(oldX, oldY);
+                return false;
             }
+            return true;
         }
     }
 }

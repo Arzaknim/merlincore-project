@@ -14,9 +14,12 @@ namespace MartinMatta_MerlinCore.Actors
     public class Box : AbstractActor, IMovable
     {
         private ISpeedStrategy strategy;
-        private ICommand moveLeft;
-        private ICommand moveRight;
+        private IMovement moveLeft;
+        private IMovement moveRight;
         private int speed;
+        private bool inALeftCorner;
+        private bool inARightCorner;
+
 
         public Box()
         {
@@ -26,6 +29,8 @@ namespace MartinMatta_MerlinCore.Actors
             this.moveLeft = new Move(this, -1, 0);
             this.moveRight = new Move(this, 1, 0);
             this.speed = 1;
+            this.inALeftCorner = false;
+            this.inARightCorner = false;
         }
 
         public double GetSpeed()
@@ -48,23 +53,52 @@ namespace MartinMatta_MerlinCore.Actors
                 {
                     if(this.IntersectsWithActor(actorItem))
                     {
-                        if(this.GetY() >= actorItem.GetY() + actorItem.GetHeight())
+                        if (this.inALeftCorner)
                         {
-                            actorItem.SetPosition(actorItem.GetX(), actorItem.GetY()-1);
+                            Console.WriteLine("in a corner");
+                            actorItem.SetPosition(this.GetX() + this.GetWidth() + 1, actorItem.GetY());
                         }
-                        if(this.GetX() < actorItem.GetX())
+                        else if (this.inARightCorner)
                         {
-                            // && this.GetWorld().IsWall(this.GetX() - 1, this.GetY())
-                            while (this.IntersectsWithActor(actorItem))
+                            actorItem.SetPosition(this.GetX() - actorItem.GetWidth() - 1, actorItem.GetY());
+                        }
+                        else
+                        {
+                            /*Console.WriteLine(this.GetY());
+                            Console.WriteLine("----");
+                            Console.WriteLine(actorItem.GetY() + actorItem.GetHeight());
+                            Console.WriteLine();*/
+                            /*if ((this.GetY() + this.GetHeight()) >= (actorItem.GetY() + actorItem.GetHeight()))
                             {
-                                this.moveLeft.Execute();
+                                actorItem.SetPosition(actorItem.GetX(), this.GetY() - actorItem.GetHeight() - 1);
+                                Console.WriteLine("should stand on box");
+                            }*/
+                            if (this.GetX() < actorItem.GetX())
+                            {
+                                Console.WriteLine("right of box");
+                                // && this.GetWorld().IsWall(this.GetX() - 1, this.GetY())
+                                while (this.IntersectsWithActor(actorItem) && (!this.inALeftCorner && !this.inARightCorner))
+                                {
+                                    if (!this.moveLeft.Execute())
+                                    {
+                                        this.inALeftCorner = true;
+                                    }
+                                }
                             }
-                        }
-                        else if (this.GetX() > actorItem.GetX())
-                        {
-                            while (this.IntersectsWithActor(actorItem))
+                            else if (this.GetX() > actorItem.GetX())
                             {
-                                this.moveRight.Execute();
+                                Console.WriteLine("left of box");
+                                while (this.IntersectsWithActor(actorItem) && (!this.inALeftCorner && !this.inARightCorner))
+                                {
+                                    if (!this.moveRight.Execute())
+                                    {
+                                        this.inARightCorner = true;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("dunno");
                             }
                         }
                     } 

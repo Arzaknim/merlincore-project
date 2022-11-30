@@ -22,10 +22,10 @@ namespace MartinMatta_MerlinCore.Actors
 
         private bool canJump;
         
-        private ICommand moveUp;
-        private ICommand moveDown;
-        private ICommand moveRight;
-        private ICommand moveLeft;
+        private IMovement moveUp;
+        private IMovement moveDown;
+        private IMovement moveRight;
+        private IMovement moveLeft;
         private Jump<IActor> jump;
 
         private ISpellDirector spellDirector;
@@ -65,8 +65,8 @@ namespace MartinMatta_MerlinCore.Actors
         public override void Update()
         {
             //Console.WriteLine(this.speed);
-            Console.WriteLine(this.GetHealth());
-            Console.WriteLine(this.GetMana());
+            /*Console.WriteLine(this.GetHealth());
+            Console.WriteLine(this.GetMana());*/
             //Console.WriteLine(this.strategy);
             List<IActor> enemies = this.GetWorld().GetActors().FindAll(x => x.GetName() == "Spooky Scary Skeleton");
             if(this.GetHealth() > 0)
