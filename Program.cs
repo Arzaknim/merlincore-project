@@ -28,9 +28,10 @@ namespace MartinMatta_MerlinCore
 
             container.Run();
 
-            /*SpellDataProvider loader =  SpellDataProvider.GetInstance();
+            /*SpellDataProvider loader = SpellDataProvider.GetInstance();
             Console.WriteLine(loader.GetSpellInfo());
-            Console.WriteLine(loader.GetSpellEffects());*/
+            Console.WriteLine(loader.GetSpellEffects());
+            Console.WriteLine();*/
         }
     }
 }

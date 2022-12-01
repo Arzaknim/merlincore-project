@@ -2,6 +2,7 @@
 using MartinMatta_MerlinCore.Actors.Interfaces;
 using MartinMatta_MerlinCore.Commands;
 using MartinMatta_MerlinCore.Spells.Interfaces;
+using Merlin2d.Game;
 using Merlin2d.Game.Actions;
 using Merlin2d.Game.Actors;
 using System;
@@ -47,6 +48,11 @@ namespace MartinMatta_MerlinCore.Spells
             this.lastX = 0;
             this.effects = new List<ICommand>();
             this.AddEffects(effects);
+        }
+
+        public void SetAnimation(Animation animation)
+        {
+            (this as AbstractActor).SetAnimation(animation);
         }
 
         public ISpell AddEffect(ICommand effect)

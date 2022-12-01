@@ -31,15 +31,16 @@ namespace MartinMatta_MerlinCore.Spells
             this.wizard = (AbstractWizardCharacter)wizard;
             this.speedUpSpeedStrategy = new SpeedUpSpeedStrategy();
             this.factory = new SpellEffectFactory();
+            this.NewEmptyEffectsList();
         }
 
         public ISpellBuilder AddEffect(string effectName)
         {
-            if(effectName == "Heal")
+            if(effectName == "HealEffect")
             {
                 ((List<ICommand>)this.effects).Add(this.factory.CreateEffect(effectName));
             }
-            else if(effectName == "SpeedUp")
+            else if(effectName == "SpeedUpEffect")
             {
                 //this.wizard.SetSpeedStrategy(this.speedUpSpeedStrategy);
                 ((List<ICommand>)this.effects).Add(this.factory.CreateEffect(effectName));
@@ -49,24 +50,23 @@ namespace MartinMatta_MerlinCore.Spells
 
         public ISpell CreateSpell(IWizard wizard)
         {
-            if(this.Spell == "Into the Fray!")
-            {
-                return new IntoTheFraySpell(this.effects);
-            }
-            return null;
+            return new SelfCastSpell(this.effects);
+            this.NewEmptyEffectsList();
         }
 
         public ISpellBuilder SetAnimation(Animation animation)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            return this;
         }
 
         public ISpellBuilder SetSpellCost(int cost)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            return this;
         }
 
-        public void EmptyEffectsList()
+        public void NewEmptyEffectsList()
         {
             this.effects = new List<ICommand>();
         }

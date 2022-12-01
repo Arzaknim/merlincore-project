@@ -20,14 +20,29 @@ namespace MartinMatta_MerlinCore.Spells
 
         private List<string> spells;
 
+        private SpellDataProvider loader;
+
         public SpellDirector(IWizard wizard)
         {
             this.projectileSpellBuilder = new ProjectileSpellBuilder();
             this.selfCastSpellBuilder = new SelfCastSpellBuilder(wizard);
             this.wizard = wizard;
             this.spells = new List<string>();
-            this.spells.Add("Into the Fray!");
-            this.spells.Add("icicle");
+            /*this.spells.Add("Into the Fray!");
+            this.spells.Add("icicle");*/
+            this.effectSpell = new Dictionary<string, SpellInfo>();
+            this.effectCost = new Dictionary<string, int>();
+            this.loader = SpellDataProvider.GetInstance();
+            foreach (var item in loader.GetSpellInfo())
+            {
+                this.effectSpell.Add(item.Key, item.Value);
+                this.spells.Add(item.Key);
+            }
+            foreach (var item in loader.GetSpellEffects())
+            {
+                this.effectCost.Add(item.Key, item.Value);
+            }
+            Console.WriteLine();
         }
 
         public ISpell Build(string spellName)
@@ -37,11 +52,11 @@ namespace MartinMatta_MerlinCore.Spells
                 if(spellName == "icicle")
                 {
                     this.projectileSpellBuilder.Spell = spellName;
-                    this.projectileSpellBuilder.EmptyEffectsList();
-                    ISpell spell = this.projectileSpellBuilder.AddEffect("Frostbite").AddEffect("OnHitDamage").CreateSpell(wizard);
-                    int cost = spell.GetCost();
-                    if(this.wizard.GetMana() >= cost)
+                    int cost = this.effectCost["FrostbiteEffect"] + this.effectCost["OnHitDamageEffect"];
+                    ISpell spell;
+                    if (this.wizard.GetMana() >= cost)
                     {
+                        spell = this.projectileSpellBuilder.SetSpellInfo(this.effectSpell[spellName]).AddEffect("FrostbiteEffect").AddEffect("OnHitDamageEffect").CreateSpell(wizard);
                         this.wizard.ChangeMana(-cost);
                         this.wizard.GetWorld().AddActor((IActor)spell);
                         ((IActor)spell).SetPhysics(false);
@@ -55,12 +70,11 @@ namespace MartinMatta_MerlinCore.Spells
                 else if(spellName == "Into the Fray!")
                 {
                     this.selfCastSpellBuilder.Spell = spellName;
-                    this.selfCastSpellBuilder.EmptyEffectsList();
-
-                    ISpell spell = this.selfCastSpellBuilder.AddEffect("SpeedUp").AddEffect("Heal").CreateSpell(wizard);
-                    int cost = spell.GetCost();
+                    int cost = this.effectCost["SpeedUpEffect"] + this.effectCost["HealEffect"];
+                    ISpell spell;
                     if (this.wizard.GetMana() >= cost)
                     {
+                        spell = this.selfCastSpellBuilder.AddEffect("SpeedUpEffect").AddEffect("HealEffect").CreateSpell(wizard);
                         this.wizard.ChangeMana(-cost);
                     }
                     else
@@ -69,7 +83,6 @@ namespace MartinMatta_MerlinCore.Spells
                     }
                     return spell;
                 }
-                return null;
             }
             return null;
         }
