@@ -103,7 +103,7 @@ namespace MartinMatta_MerlinCore.Actors
                             this.moveRight.Execute();
                         }
                     }
-                    else
+                    /*else
                     {
                         int num = this.rng.Next(0, 100);
 
@@ -137,7 +137,7 @@ namespace MartinMatta_MerlinCore.Actors
                             this.animation.Start();
                             this.moveRight.Execute();
                         }
-                    }
+                    }*/
                 }
                 else
                 {

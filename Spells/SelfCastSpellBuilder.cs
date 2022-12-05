@@ -50,8 +50,9 @@ namespace MartinMatta_MerlinCore.Spells
 
         public ISpell CreateSpell(IWizard wizard)
         {
-            return new SelfCastSpell(this.effects);
+            ISpell spell = new SelfCastSpell(this.effects);
             this.NewEmptyEffectsList();
+            return spell;
         }
 
         public ISpellBuilder SetAnimation(Animation animation)

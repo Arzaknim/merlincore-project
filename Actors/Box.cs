@@ -19,6 +19,7 @@ namespace MartinMatta_MerlinCore.Actors
         private int speed;
         private bool inALeftCorner;
         private bool inARightCorner;
+        private int lastY;
 
 
         public Box()
@@ -31,6 +32,7 @@ namespace MartinMatta_MerlinCore.Actors
             this.speed = 1;
             this.inALeftCorner = false;
             this.inARightCorner = false;
+            this.lastY = 0;
         }
 
         public double GetSpeed()
@@ -53,9 +55,19 @@ namespace MartinMatta_MerlinCore.Actors
                 {
                     if(this.IntersectsWithActor(actorItem))
                     {
-                        if (this.inALeftCorner)
+                        //  Console.WriteLine($"Box: {this.GetX()}, {this.GetY()}");
+                        // Console.WriteLine("----");
+                        //Console.WriteLine($"Player: {actorItem.GetX()}, {actorItem.GetY()}; heigth: {actorItem.GetHeight()}");
+                        //Console.WriteLine(actorItem.GetY() + actorItem.GetHeight());
+                        // Console.WriteLine();
+                        if (this.GetY() + 1 >= actorItem.GetY() + actorItem.GetHeight())
                         {
-                            Console.WriteLine("in a corner");
+                            actorItem.SetPosition(actorItem.GetX(), this.GetY() - actorItem.GetHeight() - 2);
+                            Console.WriteLine("should stand on box");
+                        }
+                        else if (this.inALeftCorner)
+                        {
+                            //Console.WriteLine("in a corner");
                             actorItem.SetPosition(this.GetX() + this.GetWidth() + 1, actorItem.GetY());
                         }
                         else if (this.inARightCorner)
@@ -64,18 +76,14 @@ namespace MartinMatta_MerlinCore.Actors
                         }
                         else
                         {
-                            /*Console.WriteLine(this.GetY());
-                            Console.WriteLine("----");
-                            Console.WriteLine(actorItem.GetY() + actorItem.GetHeight());
-                            Console.WriteLine();*/
-                            /*if ((this.GetY() + this.GetHeight()) >= (actorItem.GetY() + actorItem.GetHeight()))
+
+                            if(this.GetY() + this.GetHeight() <= actorItem.GetY() && actorItem is AbstractCharacter)
                             {
-                                actorItem.SetPosition(actorItem.GetX(), this.GetY() - actorItem.GetHeight() - 1);
-                                Console.WriteLine("should stand on box");
-                            }*/
-                            if (this.GetX() < actorItem.GetX())
+                                (actorItem as AbstractCharacter).ChangeHealth(-100);
+                            }
+                            else if (this.GetX() < actorItem.GetX())
                             {
-                                Console.WriteLine("right of box");
+                                //Console.WriteLine("right of box");
                                 // && this.GetWorld().IsWall(this.GetX() - 1, this.GetY())
                                 while (this.IntersectsWithActor(actorItem) && (!this.inALeftCorner && !this.inARightCorner))
                                 {
@@ -83,16 +91,26 @@ namespace MartinMatta_MerlinCore.Actors
                                     {
                                         this.inALeftCorner = true;
                                     }
+                                    if (this.lastY != this.GetY() && this.inALeftCorner)
+                                    {
+                                        this.inALeftCorner = false;
+                                        break;
+                                    }
                                 }
                             }
                             else if (this.GetX() > actorItem.GetX())
                             {
-                                Console.WriteLine("left of box");
+                                //Console.WriteLine("left of box");
                                 while (this.IntersectsWithActor(actorItem) && (!this.inALeftCorner && !this.inARightCorner))
                                 {
                                     if (!this.moveRight.Execute())
                                     {
                                         this.inARightCorner = true;
+                                    }
+                                    if (this.lastY != this.GetY() && this.inARightCorner)
+                                    {
+                                        this.inARightCorner = false;
+                                        break;
                                     }
                                 }
                             }
@@ -103,6 +121,7 @@ namespace MartinMatta_MerlinCore.Actors
                         }
                     } 
                 }
+                this.lastY = this.GetY();
             }
         }
     }

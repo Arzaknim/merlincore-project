@@ -19,7 +19,7 @@
     <property name="Type" value="player"/>
    </properties>
   </object>
-  <object id="2" name="Spooky Scary Skeleton" class="skeleton" x="683.15" y="218.119" width="34.7471" height="61.3183">
+  <object id="2" name="Spooky Scary Skeleton" class="skeleton" x="606.15" y="342.119" width="34.7471" height="61.3183">
    <properties>
     <property name="Type" value="skeleton"/>
    </properties>

@@ -63,34 +63,23 @@ namespace MartinMatta_MerlinCore.Actors
             return this.posY;
         }
 
-        public bool IntersectsWithActor(IActor other)
+        public bool IntersectsWithActor(IActor actor)
         {
-            if((this.GetX() >= other.GetX() && this.GetX() <= (other.GetX() + other.GetWidth())) && (this.GetY() >= other.GetY() && this.GetY() <= (other.GetY() + other.GetHeight())))
+            if ((posX < actor.GetX() - GetWidth()) || (posX > actor.GetX() + actor.GetWidth()))
             {
-                //Console.WriteLine("intersects");
-                return true;
+                return false;
             }
-            else if (((this.GetX() + this.GetWidth()) >= other.GetX() && (this.GetX() + this.GetWidth()) <= (other.GetX() + other.GetWidth())) && (this.GetY() >= other.GetY() && this.GetY() <= (other.GetY() + other.GetHeight())))
+
+            if ((posY < actor.GetY() - GetHeight()) || (posY > actor.GetY() + actor.GetHeight()))
             {
-                //Console.WriteLine("intersects");
-                return true;
+                return false;
             }
-            else if ((this.GetX() >= other.GetX() && this.GetX() <= (other.GetX() + other.GetWidth())) && ((this.GetY() + this.GetHeight()) >= other.GetY() && (this.GetY() + this.GetHeight()) <= (other.GetY() + other.GetHeight())))
-            {
-                //Console.WriteLine("intersects");
-                return true;
-            }
-            else if (((this.GetX() + this.GetWidth()) >= other.GetX() && (this.GetX() + this.GetWidth()) <= (other.GetX() + other.GetWidth())) && ((this.GetY() + this.GetHeight()) >= other.GetY() && (this.GetY() + this.GetHeight()) <= (other.GetY() + other.GetHeight())))
-            {
-                //Console.WriteLine("intersects");
-                return true;
-            }
+            return true;
             /*Console.WriteLine("doesnt intersect");
             Console.WriteLine("enemy");
             Console.WriteLine($"{this.GetX()}, {this.GetY()}, {this.GetWidth()}, {this.GetHeight()}");
             Console.WriteLine("player");
             Console.WriteLine($"{other.GetX()}, {other.GetY()}, {other.GetWidth()}, {other.GetHeight()}");*/
-            return false;
         }
 
         public bool IsAffectedByPhysics()

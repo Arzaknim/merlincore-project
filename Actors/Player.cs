@@ -2,6 +2,7 @@
 using MartinMatta_MerlinCore.Commands;
 using MartinMatta_MerlinCore.Spells;
 using MartinMatta_MerlinCore.Spells.Interfaces;
+using MartinMatta_MerlinCore.Spells.Passives;
 using Merlin2d.Game;
 using Merlin2d.Game.Actions;
 using Merlin2d.Game.Actors;
@@ -14,7 +15,7 @@ namespace MartinMatta_MerlinCore.Actors
 
         private int intersectCounter;
         private int speedUpCounter;
-        private int manaRechargeCounter;
+        private int passivesCounter;
         private int lastY;
 
         private NormalSpeedStrategy normalSpeedStrategy;
@@ -36,7 +37,8 @@ namespace MartinMatta_MerlinCore.Actors
 
             this.intersectCounter = 0;
             this.speedUpCounter = 0;
-            this.manaRechargeCounter = 0;
+            this.passivesCounter = 0;
+            //this.ChangeHealth(-90);
 
 
             this.spellDirector = new SpellDirector(this);
@@ -60,22 +62,27 @@ namespace MartinMatta_MerlinCore.Actors
             this.jump = new Jump<IActor>(this, 220);
             this.orientation = ActorOrientation.RIGHT;
             this.lastY = 0;
+            this.passives.Add(new HealthRechargeEffect(this));
+            this.passives.Add(new ManaRechargeEffect(this));
         }
 
         public override void Update()
         {
             //Console.WriteLine(this.speed);
             Console.WriteLine(this.GetHealth());
-            //Console.WriteLine(this.GetMana());
+            Console.WriteLine(this.GetMana());
             //Console.WriteLine(this.strategy);
             List<IActor> enemies = this.GetWorld().GetActors().FindAll(x => x.GetName() == "Spooky Scary Skeleton");
             if(this.GetHealth() > 0)
             {
-                manaRechargeCounter++;
-                if(manaRechargeCounter == 90)
+                passivesCounter++;
+                if(passivesCounter == 90)
                 {
-                    this.ChangeMana(5);
-                    this.manaRechargeCounter = 0;
+                    foreach(ICommand passiveItem in this.passives)
+                    {
+                        passiveItem.Execute();
+                    }
+                    this.passivesCounter = 0;
                 }
                 if (this.strategy is SpeedUpSpeedStrategy)
                 {

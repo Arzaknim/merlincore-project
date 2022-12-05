@@ -14,11 +14,13 @@ namespace MartinMatta_MerlinCore.Actors
         protected ISpeedStrategy strategy;
         protected double speed;
         private int health;
+        protected List<ICommand> passives;
 
         public AbstractCharacter()
         {
             this.health = 100;
             this.orientation = ActorOrientation.RIGHT;
+            this.passives = new List<ICommand>();
         }
 
         public void ChangeHealth(int delta)
@@ -42,12 +44,24 @@ namespace MartinMatta_MerlinCore.Actors
 
         public void AddEffect(ICommand effect)
         {
-            throw new NotImplementedException();
+            if(effect != null)
+            {
+                if (!this.passives.Contains(effect))
+                {
+                    this.passives.Add(effect);
+                }
+            }
         }
 
         public void RemoveEffect(ICommand effect)
         {
-            throw new NotImplementedException();
+            if (effect != null)
+            {
+                if (this.passives.Contains(effect))
+                {
+                    this.passives.Remove(effect);
+                }
+            }
         }
 
         public void SetSpeedStrategy(ISpeedStrategy strategy)
