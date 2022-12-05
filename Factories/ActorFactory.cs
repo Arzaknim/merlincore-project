@@ -1,4 +1,5 @@
 ﻿using MartinMatta_MerlinCore.Actors;
+using MartinMatta_MerlinCore.Items;
 using Merlin2d.Game;
 using Merlin2d.Game.Actors;
 using System;
@@ -25,7 +26,7 @@ namespace MartinMatta_MerlinCore.Factories
             }
             else if (actorType == "skeleton")
             {
-                actor = new Skeleton(10, 3);
+                actor = new Skeleton(150, 3);
                 actor.SetPhysics(false);
                 actor.SetName(actorName);
                 actor.SetPosition(x, y);
@@ -50,6 +51,38 @@ namespace MartinMatta_MerlinCore.Factories
             else if (actorType == "yellowbox")
             {
                 actor = new Box();
+                actor.SetPhysics(true);
+                actor.SetName(actorName);
+                actor.SetPosition(x, y);
+
+            }
+            else if (actorType == "healingpotion")
+            {
+                actor = new HealingPotion(30);
+                actor.SetPhysics(true);
+                actor.SetName(actorName);
+                actor.SetPosition(x, y);
+
+            }
+            else if (actorType == "manapotion")
+            {
+                actor = new ManaPotion(30);
+                actor.SetPhysics(true);
+                actor.SetName(actorName);
+                actor.SetPosition(x, y);
+
+            }
+            else if (actorType == "manapotionstation")
+            {
+                actor = new ManaPotionStation();
+                actor.SetPhysics(true);
+                actor.SetName(actorName);
+                actor.SetPosition(x, y);
+
+            }
+            else if (actorType == "healthpotionstation")
+            {
+                actor = new HealthPotionStation();
                 actor.SetPhysics(true);
                 actor.SetName(actorName);
                 actor.SetPosition(x, y);

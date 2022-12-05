@@ -1,11 +1,13 @@
 ﻿using MartinMatta_MerlinCore.Actors.Interfaces;
 using MartinMatta_MerlinCore.Commands;
+using MartinMatta_MerlinCore.Items;
 using MartinMatta_MerlinCore.Spells;
 using MartinMatta_MerlinCore.Spells.Interfaces;
 using MartinMatta_MerlinCore.Spells.Passives;
 using Merlin2d.Game;
 using Merlin2d.Game.Actions;
 using Merlin2d.Game.Actors;
+using Merlin2d.Game.Items;
 
 namespace MartinMatta_MerlinCore.Actors
 {
@@ -30,6 +32,8 @@ namespace MartinMatta_MerlinCore.Actors
         private Jump<IActor> jump;
 
         private ISpellDirector spellDirector;
+
+        private Backpack inventory;
 
         public Player(int x, int y, double speed)
         {
@@ -64,14 +68,21 @@ namespace MartinMatta_MerlinCore.Actors
             this.lastY = 0;
             this.passives.Add(new HealthRechargeEffect(this));
             this.passives.Add(new ManaRechargeEffect(this));
+            this.inventory = new Backpack(3);
+        }
+
+        public Backpack GetInvetory()
+        {
+            return this.inventory;
         }
 
         public override void Update()
         {
             //Console.WriteLine(this.speed);
             Console.WriteLine(this.GetHealth());
-            Console.WriteLine(this.GetMana());
+            //Console.WriteLine(this.GetMana());
             //Console.WriteLine(this.strategy);
+            this.GetWorld().ShowInventory(this.inventory);
             List<IActor> enemies = this.GetWorld().GetActors().FindAll(x => x.GetName() == "Spooky Scary Skeleton");
             if(this.GetHealth() > 0)
             {
@@ -150,18 +161,60 @@ namespace MartinMatta_MerlinCore.Actors
                     animation.Stop();
                 }
 
-                if (Input.GetInstance().IsKeyPressed(Input.Key.Q))
+                if (Input.GetInstance().IsKeyPressed(Input.Key.W))
                 {
                     ISpell spell = this.spellDirector.Build("Into the Fray!");
-                    if(spell != null)
+                    if (spell != null)
                         spell.ApplyEffects(this);
                 }
-                else if (Input.GetInstance().IsKeyPressed(Input.Key.E))
+                else if (Input.GetInstance().IsKeyPressed(Input.Key.Q))
                 {
                     this.spellDirector.Build("icicle");
                 }
+                else if (Input.GetInstance().IsKeyPressed(Input.Key.E))
+                {
+                    bool atStation = false;
+                    List<IActor> stations = this.GetWorld().GetActors().Where(a => a is IStation).ToList();
+                    foreach(IActor station in stations)
+                    {
+                        if (this.IntersectsWithActor(station))
+                        {
+                            atStation = true;
+                            (station as IStation).Use(this);
+                        }
+                    }
 
-                if(!this.canJump && this.lastY == this.GetY())
+                    if (!this.inventory.IsFull() && !atStation)
+                    {
+                        bool foundItem = false;
+                        List<IActor> items = this.GetWorld().GetActors().Where(a => a is IItem).ToList();
+                        foreach (IActor item in items)
+                        {
+                            if (this.IntersectsWithActor(item))
+                            {
+                                this.inventory.AddItem((item as IItem));
+                                item.RemoveFromWorld();
+                                foundItem = true;
+                                break;
+                            }
+                        }
+                        if (!foundItem)
+                        {
+                            (this.inventory.GetItem() as IUsable)?.Use(this);
+                            this.inventory.ReplaceItemAtIndex(0, new Jar());
+                        }
+                    }
+                }
+                else if (Input.GetInstance().IsKeyPressed(Input.Key.SEMICOLON))
+                {
+                    this.inventory.ShiftLeft();
+                }
+                else if (Input.GetInstance().IsKeyPressed(Input.Key.APOSTROPHE))
+                {
+                    this.inventory.ShiftRight();
+                }
+
+                if (!this.canJump && this.lastY == this.GetY())
                 {
                     this.canJump = true;
                 }
