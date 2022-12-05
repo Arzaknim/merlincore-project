@@ -42,8 +42,8 @@ namespace MartinMatta_MerlinCore.Actors
             this.intersectCounter = 0;
             this.speedUpCounter = 0;
             this.passivesCounter = 0;
-            //this.ChangeHealth(-90);
-
+            this.ChangeHealth(-90);
+            this.ChangeMana(-90);
 
             this.spellDirector = new SpellDirector(this);
 
@@ -80,7 +80,7 @@ namespace MartinMatta_MerlinCore.Actors
         {
             //Console.WriteLine(this.speed);
             Console.WriteLine(this.GetHealth());
-            //Console.WriteLine(this.GetMana());
+            Console.WriteLine(this.GetMana());
             //Console.WriteLine(this.strategy);
             this.GetWorld().ShowInventory(this.inventory);
             List<IActor> enemies = this.GetWorld().GetActors().FindAll(x => x.GetName() == "Spooky Scary Skeleton");
@@ -198,7 +198,7 @@ namespace MartinMatta_MerlinCore.Actors
                                 break;
                             }
                         }
-                        if (!foundItem)
+                        if (!foundItem && this.inventory.GetItem() != null)
                         {
                             (this.inventory.GetItem() as IUsable)?.Use(this);
                             this.inventory.ReplaceItemAtIndex(0, new Jar());
@@ -207,11 +207,11 @@ namespace MartinMatta_MerlinCore.Actors
                 }
                 else if (Input.GetInstance().IsKeyPressed(Input.Key.SEMICOLON))
                 {
-                    this.inventory.ShiftLeft();
+                    this.inventory.ShiftRight();
                 }
                 else if (Input.GetInstance().IsKeyPressed(Input.Key.APOSTROPHE))
                 {
-                    this.inventory.ShiftRight();
+                    this.inventory.ShiftLeft();
                 }
 
                 if (!this.canJump && this.lastY == this.GetY())

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace MartinMatta_MerlinCore.Items
 {
 
-    public class ManaPotion : Jar
+    public class ManaPotion : Jar, IUsable
     {
         private int dosage;
         private Animation fullAnimation;
