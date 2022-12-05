@@ -25,6 +25,24 @@ namespace MartinMatta_MerlinCore.Actors
             if (length < this.maxSize)
             {
                 items[length] = item;
+                Console.WriteLine("start of inventory");
+                Console.WriteLine();
+                /*for (int i = 0; i < this.maxSize; i++)
+                {
+                    if (this.items[i] != null)
+                        Console.WriteLine(this.items[i]);
+                    else
+                        Console.WriteLine("empty");
+                }*/
+                foreach(IItem itm in this.items)
+                {
+                    if (itm != null)
+                        Console.WriteLine(itm);
+                    else
+                        Console.WriteLine("empty");
+                }
+                Console.WriteLine();
+                Console.WriteLine("end of inventory");
             }
             else
             {

@@ -59,8 +59,8 @@ namespace MartinMatta_MerlinCore.Actors
             Console.WriteLine("speed");
             Console.WriteLine(this.speed);
 
-            this.moveUp = new Move(this, 0, -1);
-            this.moveDown = new Move(this, 0, 1);
+            //this.moveUp = new Move(this, 0, -1);
+            //this.moveDown = new Move(this, 0, 1);
             this.moveRight = new Move(this, 1, 0);
             this.moveLeft = new Move(this, -1, 0);
             this.jump = new Jump<IActor>(this, 220);
@@ -79,8 +79,8 @@ namespace MartinMatta_MerlinCore.Actors
         public override void Update()
         {
             //Console.WriteLine(this.speed);
-            Console.WriteLine(this.GetHealth());
-            Console.WriteLine(this.GetMana());
+            //Console.WriteLine(this.GetHealth());
+            //Console.WriteLine(this.GetMana());
             //Console.WriteLine(this.strategy);
             this.GetWorld().ShowInventory(this.inventory);
             List<IActor> enemies = this.GetWorld().GetActors().FindAll(x => x.GetName() == "Spooky Scary Skeleton");
@@ -181,6 +181,17 @@ namespace MartinMatta_MerlinCore.Actors
                         {
                             atStation = true;
                             (station as IStation).Use(this);
+                        }
+                    }
+                    List<IActor> teleporters = this.GetWorld().GetActors().Where(a => a is Teleporter).ToList();
+                    bool wasTeleported = false;
+                    foreach(Teleporter teleporter in teleporters)
+                    {
+                        if (this.IntersectsWithActor(teleporter) && !wasTeleported)
+                        {
+                            teleporter.Use(this);
+                            wasTeleported = true;
+
                         }
                     }
 

@@ -24,6 +24,10 @@ namespace MartinMatta_MerlinCore
                 IActor enemy = world.GetActors().Find(x => x.GetName() == "Spooky Scary Skeleton");
                 world.CenterOn(player);
                 ((Skeleton)enemy).SetPlayerToChase(player);
+
+                IActor teleport1 = world.GetActors().Find(x => x.GetName() == "Teleporter 1");
+                IActor teleport2 = world.GetActors().Find(x => x.GetName() == "Teleporter 2");
+                (teleport1 as Teleporter).Subscribe((Teleporter)teleport2);
             });
 
             container.Run();

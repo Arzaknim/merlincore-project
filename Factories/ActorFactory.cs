@@ -88,6 +88,14 @@ namespace MartinMatta_MerlinCore.Factories
                 actor.SetPosition(x, y);
 
             }
+            else if (actorType == "teleporter")
+            {
+                actor = new Teleporter();
+                actor.SetPhysics(true);
+                actor.SetName(actorName);
+                actor.SetPosition(x, y);
+
+            }
             else
             {
                 throw new ArgumentException("meow");
