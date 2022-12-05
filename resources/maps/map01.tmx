@@ -59,12 +59,12 @@
     <property name="Type" value="manapotionstation"/>
    </properties>
   </object>
-  <object id="20" name="Teleporter 1" class="teleporter" x="115" y="417" width="38" height="26">
+  <object id="20" name="Teleporter 1" class="teleporter" x="120" y="435" width="38" height="26">
    <properties>
     <property name="Type" value="teleporter"/>
    </properties>
   </object>
-  <object id="21" name="Teleporter 2" class="teleporter" x="306" y="437" width="38" height="26">
+  <object id="21" name="Teleporter 2" class="teleporter" x="315" y="451" width="38" height="26">
    <properties>
     <property name="Type" value="teleporter"/>
    </properties>

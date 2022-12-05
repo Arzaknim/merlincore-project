@@ -212,8 +212,19 @@ namespace MartinMatta_MerlinCore.Actors
                         if (!foundItem && this.inventory.GetItem() != null)
                         {
                             (this.inventory.GetItem() as IUsable)?.Use(this);
-                            this.inventory.ReplaceItemAtIndex(0, new Jar());
+                            this.inventory.ReplaceItemAtIndex(0, new Jar().SetWorld(this.GetWorld()));
                         }
+                    }
+                }
+                else if (Input.GetInstance().IsKeyPressed(Input.Key.R))
+                {
+                    IItem item = this.inventory.GetItem();
+                    if (item != null)
+                    {
+                        (item as AbstractActor).ReturnToWorld();
+                        item.SetPosition(this.GetX() + this.GetWidth()/2, this.GetY() + this.GetHeight()/2);
+                        this.inventory.RemoveItem(0);
+                        this.inventory.ShiftLeft();
                     }
                 }
                 else if (Input.GetInstance().IsKeyPressed(Input.Key.SEMICOLON))

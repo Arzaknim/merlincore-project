@@ -16,7 +16,14 @@ namespace MartinMatta_MerlinCore.Items
         public Jar()
         {
             this.animation = new Animation("resources/sprites/jar_empty.png", 16, 16);
+            this.SetPhysics(true);
             this.animation.Start();
+        }
+
+        public Jar SetWorld(IWorld world)
+        {
+            this.OnAddedToWorld(world);
+            return this;
         }
 
         public override void Update()

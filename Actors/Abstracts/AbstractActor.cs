@@ -102,6 +102,12 @@ namespace MartinMatta_MerlinCore.Actors
             this.toBeRemoved = true;
         }
 
+        public void ReturnToWorld()
+        {
+            this.toBeRemoved = false;
+            this.world.AddActor(this);
+        }
+
         public void SetAnimation(Animation animation)
         {
             this.animation = animation;
