@@ -52,6 +52,7 @@ namespace MartinMatta_MerlinCore.Actors
         {
             //Console.WriteLine(this.GetHealth());
             IActor player = this.GetWorld().GetActors().Find(x => x.GetName() == "Merlin");
+            IActor safehouse = this.GetWorld().GetActors().Find(x => x.GetName() == "Merl");
             //Console.WriteLine(this.strategy);
             if (this.GetHealth() > 0)
             {
@@ -135,6 +136,8 @@ namespace MartinMatta_MerlinCore.Actors
                             this.animation.Start();
                             this.moveRight.Execute();
                         }
+
+
                     }
                 }
                 else

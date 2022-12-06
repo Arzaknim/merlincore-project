@@ -57,6 +57,9 @@
     <None Update="resources\pressureplate.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="resources\safehouse.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="resources\skeletonspawner.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

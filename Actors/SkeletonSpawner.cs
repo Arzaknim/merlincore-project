@@ -81,7 +81,12 @@ namespace MartinMatta_MerlinCore.Actors
 
         private bool IsInSafeZone(IActor skeleton)
         {
-            return (skeleton.GetX() > 30 && skeleton.GetX() < 190 && skeleton.GetY() > 320 && skeleton.GetY() < 460);
+            IActor safehouse = this.GetWorld().GetActors().Find(x => x is SafeHouse);
+            if (skeleton.IntersectsWithActor(safehouse))
+            {
+                return true;
+            }
+            return false;
         }
 
         public void AddEffect(ICommand effect)

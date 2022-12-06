@@ -7,6 +7,7 @@ using MartinMatta_MerlinCore.Spells.Passives;
 using Merlin2d.Game;
 using Merlin2d.Game.Actions;
 using Merlin2d.Game.Actors;
+using Merlin2d.Game.Enums;
 using Merlin2d.Game.Items;
 
 namespace MartinMatta_MerlinCore.Actors
@@ -35,8 +36,13 @@ namespace MartinMatta_MerlinCore.Actors
 
         private Backpack inventory;
 
+        private IMessage status;
+        private IMessage help;
+
         public Player(int x, int y, double speed)
         {
+            this.status = new Message($"{this.GetHealth()}, {this.GetMana()}", 0, -30, 15, Color.Orange, MessageDuration.Indefinite);
+
             this.SetPosition(x, y);
 
             this.intersectCounter = 0;
@@ -78,6 +84,10 @@ namespace MartinMatta_MerlinCore.Actors
 
         public override void Update()
         {
+            this.GetWorld().RemoveMessage(this.status);
+            this.status = new Message($"{this.GetHealth()}, {this.GetMana()}", -10, -15, 15, Color.Orange, MessageDuration.Indefinite);
+            this.status.SetAnchorPoint(this);
+            this.GetWorld().AddMessage(this.status);
             //Console.WriteLine(this.speed);
             Console.WriteLine(this.GetHealth());
             Console.WriteLine(this.GetMana());

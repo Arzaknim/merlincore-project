@@ -82,7 +82,8 @@ namespace MartinMatta_MerlinCore.Commands
 
             this.actor.SetPosition(newX, newY);
 
-            if (this.actor.GetWorld().IntersectWithWall(this.actor))
+            IActor safehouse = this.actor.GetWorld().GetActors().Find(x => x is SafeHouse);
+            if (this.actor.GetWorld().IntersectWithWall(this.actor) || (this.actor is Skeleton && this.actor.IntersectsWithActor(safehouse)))
             {
                 this.actor.SetPosition(oldX, oldY);
                 return false;

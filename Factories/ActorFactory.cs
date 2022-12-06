@@ -96,6 +96,13 @@ namespace MartinMatta_MerlinCore.Factories
                 actor.SetPosition(x, y);
 
             }
+            else if(actorType == "safehouse")
+            {
+                actor = new SafeHouse();
+                actor.SetPhysics(false);
+                actor.SetName(actorName);
+                actor.SetPosition(x, y);
+            }
             else
             {
                 throw new ArgumentException("meow");
