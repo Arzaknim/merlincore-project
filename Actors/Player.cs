@@ -135,11 +135,6 @@ namespace MartinMatta_MerlinCore.Actors
                     //this.moveUp.Execute();
                     this.jump.Execute(this);
                 }
-                else if (Input.GetInstance().IsKeyDown(Input.Key.DOWN))
-                {
-                    animation.Start();
-                    this.moveDown.Execute();
-                }
                 else if (Input.GetInstance().IsKeyDown(Input.Key.RIGHT))
                 {
                     if (this.orientation == ActorOrientation.LEFT)

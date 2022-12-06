@@ -13,9 +13,12 @@ namespace MartinMatta_MerlinCore.Items
 {
     public class Jar : AbstractActor, IItem
     {
+        private JarBase instance;
+
         public Jar()
         {
-            this.animation = new Animation("resources/sprites/jar_empty.png", 16, 16);
+            this.instance = JarBase.GetInstance();
+            this.SetAnimation(this.instance.GetAnimation());
             this.SetPhysics(true);
             this.animation.Start();
         }

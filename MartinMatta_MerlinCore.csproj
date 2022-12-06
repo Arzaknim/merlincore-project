@@ -45,6 +45,9 @@
     <None Update="resources\manapotionstation.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="resources\maps\catmap.tmx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="resources\maps\map01.tmx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

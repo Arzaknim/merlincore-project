@@ -14,13 +14,13 @@ namespace MartinMatta_MerlinCore.Items
     public class ManaPotion : Jar, IUsable
     {
         private int dosage;
-        private Animation fullAnimation;
+        private ManaPotionBase instance;
 
         public ManaPotion(int dosage)
         {
+            this.instance = ManaPotionBase.GetInstance();
             this.dosage = dosage;
-            this.fullAnimation = new Animation("resources/sprites/manapotion_full.png", 16, 16);
-            this.animation = this.fullAnimation;
+            this.animation = this.instance.GetAnimation();
             this.animation.Start();
         }
 

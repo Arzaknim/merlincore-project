@@ -13,7 +13,7 @@ namespace MartinMatta_MerlinCore
         {
 
             GameContainer container = new GameContainer("window name", 750, 500);
-            container.SetMap("resources/maps/map01.tmx");
+            container.SetMap("resources/maps/catmap.tmx");
             container.GetWorld().SetPhysics(new Gravity());
             container.GetWorld().SetFactory(new ActorFactory());
             container.SetCameraFollowStyle(Merlin2d.Game.Enums.CameraFollowStyle.CenteredInsideMapPreferTop);

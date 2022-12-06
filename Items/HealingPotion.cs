@@ -10,17 +10,16 @@ using System.Threading.Tasks;
 
 namespace MartinMatta_MerlinCore.Items
 {
-
     public class HealingPotion : Jar, IUsable
     {
         private int dosage;
-        private Animation fullAnimation;
+        private HealingPotionBase instance;
 
         public HealingPotion(int dosage)
         {
+            this.instance = HealingPotionBase.GetInstance();
             this.dosage = dosage;
-            this.fullAnimation = new Animation("resources/sprites/healingpotion_full.png", 16, 16);
-            this.animation = this.fullAnimation;
+            this.animation = this.instance.GetAnimation();
             this.animation.Start();
         }
 

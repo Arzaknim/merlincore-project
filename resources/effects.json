@@ -1,11 +1,11 @@
 ﻿[
   {
     "name": "FrostbiteEffect",
-    "cost": 10
+    "cost": 5
   },
   {
     "name": "OnHitDamageEffect",
-    "cost": 10
+    "cost": 5
   },
   {
     "name": "HealEffect",
