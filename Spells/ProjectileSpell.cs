@@ -29,12 +29,14 @@ namespace MartinMatta_MerlinCore.Spells
         private bool hitATarget;
         private int lastX;
 
-        public ProjectileSpell(AbstractCharacter caster, int speed, int range, IEnumerable<ICommand> effects)
+        public ProjectileSpell(AbstractCharacter caster, int speed, int range, IEnumerable<ICommand> effects, Animation animation)
         {
             this.caster = caster;
             int casterFrontX = this.caster.GetX() + this.caster.GetAnimation().GetWidth();
             int casterMiddleY = this.caster.GetY() + this.caster.GetAnimation().GetHeight() / 2;
             this.SetPosition(casterFrontX, casterMiddleY);
+            this.SetAnimation(animation);
+            this.animation.Start();
             this.speed = speed;
             this.normalSpeedStrategy = new NormalSpeedStrategy();
             this.initialOrientation = this.caster.GetOrientation();

@@ -42,8 +42,8 @@ namespace MartinMatta_MerlinCore.Actors
             this.intersectCounter = 0;
             this.speedUpCounter = 0;
             this.passivesCounter = 0;
-            this.ChangeHealth(-90);
-            this.ChangeMana(-90);
+            /*this.ChangeHealth(-90);
+            this.ChangeMana(-90);*/
 
             this.spellDirector = new SpellDirector(this);
 
@@ -79,8 +79,8 @@ namespace MartinMatta_MerlinCore.Actors
         public override void Update()
         {
             //Console.WriteLine(this.speed);
-            //Console.WriteLine(this.GetHealth());
-            //Console.WriteLine(this.GetMana());
+            Console.WriteLine(this.GetHealth());
+            Console.WriteLine(this.GetMana());
             //Console.WriteLine(this.strategy);
             this.GetWorld().ShowInventory(this.inventory);
             List<IActor> enemies = this.GetWorld().GetActors().FindAll(x => x.GetName() == "Spooky Scary Skeleton");

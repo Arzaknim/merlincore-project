@@ -16,6 +16,7 @@ namespace MartinMatta_MerlinCore.Spells
         private SpellEffectFactory factory;
         private IEnumerable<ICommand> effects;
         private SpellInfo info;
+        private IcicleSpellBase icicle;
         //private AbstractWizardCharacter wizard;
 
         private string spellToExecute;
@@ -55,8 +56,8 @@ namespace MartinMatta_MerlinCore.Spells
         {
             if (this.Spell == "icicle")
             {
-                ISpell spell = new ProjectileSpell((AbstractCharacter)wizard, 10, 160, this.effects);
-                (spell as ProjectileSpell).SetAnimation(new Animation(this.info.AnimationPath, this.info.AnimationWidth, this.info.AnimationHeight));
+                this.icicle = IcicleSpellBase.GetInstance(info);
+                ISpell spell = new ProjectileSpell((AbstractCharacter)wizard, 10, 160, this.effects, this.icicle.GetAnimation());
                 (spell as ProjectileSpell).GetAnimation().Start();
                 /*this.OnAddedToWorld(caster.GetWorld());*/
                 this.NewEmptyEffectsList();
