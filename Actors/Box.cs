@@ -61,8 +61,20 @@ namespace MartinMatta_MerlinCore.Actors
 
         public override void Update()
         {
+            if (!Input.GetInstance().IsKeyDown(Input.Key.E))
+            {
+                this.isActorRight = false;
+                this.isActorLeft = false;
+            }
+            else
+            {
+                this.inALeftCorner = false;
+                this.inARightCorner = false;
+            }
             List<IActor> actors = this.GetWorld().GetActors();
+            IActor pressurePlate = this.GetWorld().GetActors().Find(x => x is PressurePlate);
             actors.Remove(this);
+            actors.Remove(pressurePlate);
             if (actors != null || actors.Count() != 0)
             {
                 foreach(IActor actorItem in actors)
@@ -74,8 +86,6 @@ namespace MartinMatta_MerlinCore.Actors
                         //Console.WriteLine($"Player: {actorItem.GetX()}, {actorItem.GetY()}; heigth: {actorItem.GetHeight()}");
                         //Console.WriteLine(actorItem.GetY() + actorItem.GetHeight());
                         // Console.WriteLine();
-                        this.isActorRight = false;
-                        this.isActorLeft = false;
                         if (this.GetY() + 1 >= actorItem.GetY() + actorItem.GetHeight())
                         {
                             actorItem.SetPosition(actorItem.GetX(), this.GetY() - actorItem.GetHeight() - 2);
@@ -101,8 +111,12 @@ namespace MartinMatta_MerlinCore.Actors
                             {
                                 //Console.WriteLine("right of box");
                                 // && this.GetWorld().IsWall(this.GetX() - 1, this.GetY())
-                                this.isActorLeft = false;
-                                this.isActorRight = true;
+                                if (actorItem is Player)
+                                {
+                                    this.isActorLeft = false;
+                                    this.isActorRight = true;
+                                }
+
                                 while (this.IntersectsWithActor(actorItem) && (!this.inALeftCorner && !this.inARightCorner))
                                 {
                                     if (!this.moveLeft.Execute())
@@ -119,8 +133,11 @@ namespace MartinMatta_MerlinCore.Actors
                             else if (this.GetX() > actorItem.GetX())
                             {
                                 //Console.WriteLine("left of box");
-                                this.isActorLeft = true;
-                                this.isActorRight = false;
+                                if (actorItem is Player)
+                                {
+                                    this.isActorLeft = true;
+                                    this.isActorRight = false;
+                                }
                                 while (this.IntersectsWithActor(actorItem) && (!this.inALeftCorner && !this.inARightCorner))
                                 {
                                     if (!this.moveRight.Execute())

@@ -30,45 +30,54 @@ namespace MartinMatta_MerlinCore.Actors
         public override void Update()
         {
             IActor player = this.GetWorld().GetActors().Find(x => x.GetName() == "Merlin");
-            if(player != null)
+            List<IActor> applicable = this.GetWorld().GetActors().FindAll(x => x is Box);
+            applicable.Add(player);
+            bool onTop = false;
+            foreach(IActor actorItem in applicable)
             {
-                if ((this as AbstractActor).IntersectsWithActor(player))
+                if ((this as AbstractActor).IntersectsWithActor(actorItem))
                 {
-                    Console.WriteLine("meow");
-                    this.GetWorld().SetWall(13, 28, false);
-                    this.GetWorld().SetWall(13, 27, false);
-                    this.GetWorld().SetWall(13, 26, false);
-                    this.GetWorld().SetWall(13, 25, false);
-                    this.GetWorld().SetWall(13, 24, false);
-                    this.GetWorld().SetWall(13, 23, false);
-                    this.GetWorld().SetWall(13, 22, false);
-
-                    this.GetWorld().SetWall(12, 28, false);
-                    this.GetWorld().SetWall(12, 27, false);
-                    this.GetWorld().SetWall(12, 26, false);
-                    this.GetWorld().SetWall(12, 25, false);
-                    this.GetWorld().SetWall(12, 24, false);
-                    this.GetWorld().SetWall(12, 23, false);
-                    this.GetWorld().SetWall(12, 22, false);
+                    onTop = true;
+                    break;
                 }
-                else
-                {
-                    this.GetWorld().SetWall(13, 28, true);
-                    this.GetWorld().SetWall(13, 27, true);
-                    this.GetWorld().SetWall(13, 26, true);
-                    this.GetWorld().SetWall(13, 25, true);
-                    this.GetWorld().SetWall(13, 24, true);
-                    this.GetWorld().SetWall(13, 23, true);
-                    this.GetWorld().SetWall(13, 22, true);
+            }
 
-                    this.GetWorld().SetWall(12, 28, true);
-                    this.GetWorld().SetWall(12, 27, true);
-                    this.GetWorld().SetWall(12, 26, true);
-                    this.GetWorld().SetWall(12, 25, true);
-                    this.GetWorld().SetWall(12, 24, true);
-                    this.GetWorld().SetWall(12, 23, true);
-                    this.GetWorld().SetWall(12, 22, true);
-                }
+            if (onTop)
+            {
+                Console.WriteLine("meow");
+                this.GetWorld().SetWall(13, 28, false);
+                this.GetWorld().SetWall(13, 27, false);
+                this.GetWorld().SetWall(13, 26, false);
+                this.GetWorld().SetWall(13, 25, false);
+                this.GetWorld().SetWall(13, 24, false);
+                this.GetWorld().SetWall(13, 23, false);
+                this.GetWorld().SetWall(13, 22, false);
+
+                this.GetWorld().SetWall(12, 28, false);
+                this.GetWorld().SetWall(12, 27, false);
+                this.GetWorld().SetWall(12, 26, false);
+                this.GetWorld().SetWall(12, 25, false);
+                this.GetWorld().SetWall(12, 24, false);
+                this.GetWorld().SetWall(12, 23, false);
+                this.GetWorld().SetWall(12, 22, false);
+            }
+            else
+            {
+                this.GetWorld().SetWall(13, 28, true);
+                this.GetWorld().SetWall(13, 27, true);
+                this.GetWorld().SetWall(13, 26, true);
+                this.GetWorld().SetWall(13, 25, true);
+                this.GetWorld().SetWall(13, 24, true);
+                this.GetWorld().SetWall(13, 23, true);
+                this.GetWorld().SetWall(13, 22, true);
+
+                this.GetWorld().SetWall(12, 28, true);
+                this.GetWorld().SetWall(12, 27, true);
+                this.GetWorld().SetWall(12, 26, true);
+                this.GetWorld().SetWall(12, 25, true);
+                this.GetWorld().SetWall(12, 24, true);
+                this.GetWorld().SetWall(12, 23, true);
+                this.GetWorld().SetWall(12, 22, true);
             }
         }
     }
