@@ -1,3 +1,3 @@
-﻿name;spelltype;animationpath;animationwidth;animationheight;effect1,effect2,effect3
-icicle;projectile;resources/icicle.png;9;6;OnHitDamageEffect,FrostbiteEffect
+﻿name;spelltype;animationpath;animation;width;height;effect1,effect2,effect3
+icicle;projectile;resources/icicle.png;21;7;OnHitDamageEffect,FrostbiteEffect
 Into the Fray!;selfcast;;0;0;SpeedUpEffect,HealEffect

@@ -26,7 +26,7 @@ namespace MartinMatta_MerlinCore.Factories
             }
             else if (actorType == "skeleton")
             {
-                actor = new Skeleton(150, 3);
+                actor = new Skeleton(300, 3);
                 actor.SetPhysics(false);
                 actor.SetName(actorName);
                 actor.SetPosition(x, y);
@@ -42,7 +42,7 @@ namespace MartinMatta_MerlinCore.Factories
             }
             else if (actorType == "skeletonspawner")
             {
-                actor = new SkeletonSpawner(0);
+                actor = new SkeletonSpawner(100);
                 actor.SetPhysics(true);
                 actor.SetName(actorName);
                 actor.SetPosition(x, y);

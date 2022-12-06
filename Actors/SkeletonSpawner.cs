@@ -45,7 +45,7 @@ namespace MartinMatta_MerlinCore.Actors
                 //Console.WriteLine("sex v meste");
                 if((this.skelly == null || this.skelly.RemovedFromWorld()) && this.current < this.n)
                 {
-                    this.skelly = new Skeleton(150, 3);
+                    this.skelly = new Skeleton(300, 3);
                     this.GetWorld().AddActor((IActor)this.skelly);
                     this.skelly.SetPhysics(false);
                     this.skelly.SetName("Spooky Scary Skeleton");
