@@ -216,6 +216,21 @@ namespace MartinMatta_MerlinCore.Actors
                         }
                     }
                 }
+                else if (Input.GetInstance().IsKeyDown(Input.Key.E))
+                {
+                    List<IActor> boxes = this.GetWorld().GetActors().Where(a => a is Box).ToList();
+                    foreach (Box box in boxes)
+                    {
+                        if (box.IsActorLeft())
+                        {
+                            box.SetPosition(this.GetX() + this.GetWidth() +  1, this.GetY());
+                        }
+                        else if (box.IsActorRight())
+                        {
+                            box.SetPosition(this.GetX() - box.GetWidth() - 1, this.GetY());
+                        }
+                    }
+                }
                 else if (Input.GetInstance().IsKeyPressed(Input.Key.R))
                 {
                     IItem item = this.inventory.GetItem();

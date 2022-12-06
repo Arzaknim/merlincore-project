@@ -51,6 +51,24 @@ namespace MartinMatta_MerlinCore.Actors
                     this.GetWorld().SetWall(12, 23, false);
                     this.GetWorld().SetWall(12, 22, false);
                 }
+                else
+                {
+                    this.GetWorld().SetWall(13, 28, true);
+                    this.GetWorld().SetWall(13, 27, true);
+                    this.GetWorld().SetWall(13, 26, true);
+                    this.GetWorld().SetWall(13, 25, true);
+                    this.GetWorld().SetWall(13, 24, true);
+                    this.GetWorld().SetWall(13, 23, true);
+                    this.GetWorld().SetWall(13, 22, true);
+
+                    this.GetWorld().SetWall(12, 28, true);
+                    this.GetWorld().SetWall(12, 27, true);
+                    this.GetWorld().SetWall(12, 26, true);
+                    this.GetWorld().SetWall(12, 25, true);
+                    this.GetWorld().SetWall(12, 24, true);
+                    this.GetWorld().SetWall(12, 23, true);
+                    this.GetWorld().SetWall(12, 22, true);
+                }
             }
         }
     }
