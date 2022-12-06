@@ -75,7 +75,7 @@ namespace MartinMatta_MerlinCore.Spells
         {
             foreach(ICommand effectItem in this.effects)
             {
-                ((AbstractSpellEffect)effectItem).SetTarget((AbstractCharacter)target);
+                ((AbstractSpellEffect)effectItem).SetTarget(target);
                 effectItem.Execute();
             }
         }
@@ -109,14 +109,15 @@ namespace MartinMatta_MerlinCore.Spells
                     this.distanceTravelled += (int)this.GetSpeed();
                     this.forward.Execute();
                 }
-                List<IActor> enemies = this.GetWorld().GetActors().FindAll(x => x.GetName() == "Spooky Scary Skeleton");
-                foreach (IActor enemyItem in enemies)
+                List<IActor> characters = this.GetWorld().GetActors().FindAll(x => x is ICharacter);
+                characters.Remove(this.GetWorld().GetActors().Find(x => x.GetName() == "Merlin"));
+                foreach (IActor enemyItem in characters)
                 {
                     if (this.IntersectsWithActor(enemyItem))
                     {
                         this.hitATarget = true;
                         //((AbstractCharacter)enemyItem).ChangeHealth(-25);
-                        this.ApplyEffects((AbstractCharacter)enemyItem);
+                        this.ApplyEffects((ICharacter)enemyItem);
                     }
                 }
             }

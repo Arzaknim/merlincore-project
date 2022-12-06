@@ -1,4 +1,6 @@
-﻿using Merlin2d.Game;
+﻿using MartinMatta_MerlinCore.Actors.Interfaces;
+using Merlin2d.Game;
+using Merlin2d.Game.Actions;
 using Merlin2d.Game.Actors;
 using System;
 using System.Collections.Generic;
@@ -8,16 +10,20 @@ using System.Threading.Tasks;
 
 namespace MartinMatta_MerlinCore.Actors
 {
-    public class SkeletonSpawner : AbstractActor
+    public class SkeletonSpawner : Box, ICharacter
     {
         private Skeleton skelly;
         private IActor player;
+        private Random rng;
         private int n;
         private int current;
+        private int health;
 
-        public SkeletonSpawner(int n)
+        public SkeletonSpawner(int n) : base()
         {
             this.n = n;
+            this.rng = new Random();
+            this.health = 150;
             this.current = 0;
             this.animation = new Animation("resources/skeletonspawner.png", 40, 40);
             this.animation.Start();
@@ -30,20 +36,60 @@ namespace MartinMatta_MerlinCore.Actors
 
         public override void Update()
         {
-            if (player == null)
-                this.SetPlayer();
-
-            //Console.WriteLine("sex v meste");
-            if((this.skelly == null || this.skelly.RemovedFromWorld()) && this.current < this.n)
+            if(this.health > 0)
             {
-                this.skelly = new Skeleton(150, 3);
-                this.GetWorld().AddActor((IActor)this.skelly);
-                this.skelly.SetPhysics(false);
-                this.skelly.SetName("Spooky Scary Skeleton");
-                this.skelly.SetPosition(400, 250);
-                this.skelly.SetPlayerToChase(this.player);
-                this.current++;
+                base.Update();
+                if (player == null)
+                    this.SetPlayer();
+
+                //Console.WriteLine("sex v meste");
+                if((this.skelly == null || this.skelly.RemovedFromWorld()) && this.current < this.n)
+                {
+                    this.skelly = new Skeleton(150, 3);
+                    this.GetWorld().AddActor((IActor)this.skelly);
+                    this.skelly.SetPhysics(false);
+                    this.skelly.SetName("Spooky Scary Skeleton");
+                    do
+                    {
+                        this.skelly.SetPosition(this.rng.Next(30, 1570), this.rng.Next(30, 560));
+                    }
+                    while (this.GetWorld().IntersectWithWall(this.skelly) || this.IntersectsWithActor(this.player) || this.IsInSafeZone(this.skelly)) ;
+                    this.skelly.SetPlayerToChase(this.player);
+                    this.current++;
+                }
             }
+            else
+            {
+                this.Die();
+            }
+        }
+
+        public void ChangeHealth(int delta)
+        {
+            this.health += delta;
+        }
+
+        public int GetHealth()
+        {
+            return this.health;
+        }
+
+        public void Die()
+        {
+            this.RemoveFromWorld();
+        }
+
+        private bool IsInSafeZone(IActor skeleton)
+        {
+            return (skeleton.GetX() > 30 && skeleton.GetX() < 190 && skeleton.GetY() > 320 && skeleton.GetY() < 460);
+        }
+
+        public void AddEffect(ICommand effect)
+        {
+        }
+
+        public void RemoveEffect(ICommand effect)
+        {
         }
     }
 }

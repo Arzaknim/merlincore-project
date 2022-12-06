@@ -106,7 +106,7 @@ namespace MartinMatta_MerlinCore.Actors
                 }
                 else
                 {
-                    if (enemies != null || enemies.Count() == 0)
+                    if (enemies.Count() != 0)
                     {
                         foreach(IActor enemyItem in enemies)
                         {
@@ -127,6 +127,10 @@ namespace MartinMatta_MerlinCore.Actors
                             }
                         }
                     }
+                    else
+                    {
+                        this.strategy = this.normalSpeedStrategy;
+                    }
                 }
                 if (Input.GetInstance().IsKeyDown(Input.Key.UP) && this.canJump)
                 {
@@ -135,6 +139,7 @@ namespace MartinMatta_MerlinCore.Actors
                     //this.moveUp.Execute();
                     this.jump.Execute(this);
                 }
+
                 else if (Input.GetInstance().IsKeyDown(Input.Key.RIGHT))
                 {
                     if (this.orientation == ActorOrientation.LEFT)

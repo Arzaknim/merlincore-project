@@ -12,7 +12,7 @@ namespace MartinMatta_MerlinCore.Actors
 {
     public class Skeleton : AbstractCharacter
     {
-        protected Animation animation;
+        private SkeletonBase instance;
 
         private int n;
         private IActor player;
@@ -29,8 +29,9 @@ namespace MartinMatta_MerlinCore.Actors
 
         public Skeleton(int n, double speed)
         {
+            this.instance = SkeletonBase.GetInstance();
             this.speed = speed;
-            this.animation = new Animation("resources/sprites/skeleton.png", 33, 47);
+            this.animation = this.instance.GetAnimation();
             this.normalSpeedStrategy = new NormalSpeedStrategy();
             this.strategy = this.normalSpeedStrategy;
             this.rng = new Random();

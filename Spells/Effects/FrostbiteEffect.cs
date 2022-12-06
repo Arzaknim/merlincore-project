@@ -15,7 +15,10 @@ namespace MartinMatta_MerlinCore.Spells.Effects
 
         public override void Execute()
         {
-            this.target.SetSpeedStrategy(new ModifiedSpeedStrategy());
+            if(this.target is AbstractCharacter)
+            {
+                this.target.SetSpeedStrategy(new ModifiedSpeedStrategy());
+            }
         }
     }
 }

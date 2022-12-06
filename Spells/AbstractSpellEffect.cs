@@ -1,4 +1,5 @@
 ﻿using MartinMatta_MerlinCore.Actors;
+using MartinMatta_MerlinCore.Actors.Interfaces;
 using Merlin2d.Game.Actions;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace MartinMatta_MerlinCore.Spells
         private string name;
         protected SpellType type;
         protected int cost;
-        protected AbstractCharacter target;
+        protected ICharacter target;
 
         public string Name {
             get { return name; }
@@ -30,7 +31,7 @@ namespace MartinMatta_MerlinCore.Spells
             return this.cost;
         }
 
-        public void SetTarget(AbstractCharacter target)
+        public void SetTarget(ICharacter target)
         {
             this.target = target;
         }

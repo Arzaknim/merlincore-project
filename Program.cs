@@ -12,7 +12,7 @@ namespace MartinMatta_MerlinCore
         static void Main(string[] args)
         {
 
-            GameContainer container = new GameContainer("window name", 750, 500);
+            GameContainer container = new GameContainer("window name", 1600, 590);
             container.SetMap("resources/maps/catmap.tmx");
             container.GetWorld().SetPhysics(new Gravity());
             container.GetWorld().SetFactory(new ActorFactory());

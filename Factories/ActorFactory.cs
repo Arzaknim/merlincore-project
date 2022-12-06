@@ -43,7 +43,7 @@ namespace MartinMatta_MerlinCore.Factories
             else if (actorType == "skeletonspawner")
             {
                 actor = new SkeletonSpawner(int.MaxValue);
-                actor.SetPhysics(false);
+                actor.SetPhysics(true);
                 actor.SetName(actorName);
                 actor.SetPosition(x, y);
 
