@@ -89,7 +89,7 @@ namespace MartinMatta_MerlinCore.Actors
                         if (this.GetY() + 1 >= actorItem.GetY() + actorItem.GetHeight())
                         {
                             actorItem.SetPosition(actorItem.GetX(), this.GetY() - actorItem.GetHeight() - 2);
-                            Console.WriteLine("should stand on box");
+                            //Console.WriteLine("should stand on box");
                         }
                         else if (this.inALeftCorner)
                         {

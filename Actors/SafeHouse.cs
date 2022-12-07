@@ -10,9 +10,9 @@ namespace MartinMatta_MerlinCore.Actors
 {
     public class SafeHouse : AbstractActor
     {
-        public SafeHouse()
+        public SafeHouse(int width, int height, string animationPath)
         {
-            this.animation = new Animation("resources/safehouse.png", 160, 140);
+            this.animation = new Animation(animationPath, width, height);
             this.animation.Start();
         }
 

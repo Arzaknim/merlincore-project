@@ -205,105 +205,7 @@ namespace MartinMatta_MerlinCore.Actors
                     animation.Stop();
                 }
 
-                if (Input.GetInstance().IsKeyPressed(Input.Key.W))
-                {
-                    ISpell spell = this.spellDirector.Build("Into the Fray!");
-                    if (spell != null)
-                        spell.ApplyEffects(this);
-                }
-                else if (Input.GetInstance().IsKeyPressed(Input.Key.Q))
-                {
-                    this.spellDirector.Build("icicle");
-                }
-                else if (Input.GetInstance().IsKeyPressed(Input.Key.E))
-                {
-                    bool atStation = false;
-                    List<IActor> stations = this.GetWorld().GetActors().Where(a => a is IStation).ToList();
-                    foreach(IActor station in stations)
-                    {
-                        if (this.IntersectsWithActor(station))
-                        {
-                            atStation = true;
-                            (station as IStation).Use(this);
-                        }
-                    }
-                    List<IActor> teleporters = this.GetWorld().GetActors().Where(a => a is Teleporter).ToList();
-                    bool wasTeleported = false;
-                    foreach(Teleporter teleporter in teleporters)
-                    {
-                        if (this.IntersectsWithActor(teleporter) && !wasTeleported)
-                        {
-                            teleporter.Use(this);
-                            wasTeleported = true;
-
-                        }
-                    }
-
-                    if (!this.inventory.IsFull() && !atStation)
-                    {
-                        bool foundItem = false;
-                        List<IActor> items = this.GetWorld().GetActors().Where(a => a is IItem).ToList();
-                        foreach (IActor item in items)
-                        {
-                            if (this.IntersectsWithActor(item))
-                            {
-                                this.inventory.AddItem((item as IItem));
-                                item.RemoveFromWorld();
-                                foundItem = true;
-                                break;
-                            }
-                        }
-                        if (!foundItem && this.inventory.GetItem() != null)
-                        {
-                            (this.inventory.GetItem() as IUsable)?.Use(this);
-                            if(this.inventory.GetItem() is Jar)
-                            {
-                                this.inventory.ReplaceItemAtIndex(0, new Jar().SetWorld(this.GetWorld()));
-                            }
-                            //else if (this.inventory.GetItem() is CatSword) { }
-
-
-                        }
-                    }
-                }
-                else if (Input.GetInstance().IsKeyDown(Input.Key.E))
-                {
-                    List<IActor> boxes = this.GetWorld().GetActors().Where(a => a is Box).ToList();
-                    foreach (Box box in boxes)
-                    {
-                        if (box.IsActorLeft())
-                        {
-                            box.SetPosition(this.GetX() + this.GetWidth() +  1, this.GetY());
-                        }
-                        else if (box.IsActorRight())
-                        {
-                            box.SetPosition(this.GetX() - box.GetWidth() - 1, this.GetY());
-                        }
-                    }
-                }
-                else if (Input.GetInstance().IsKeyPressed(Input.Key.R))
-                {
-                    IItem item = this.inventory.GetItem();
-                    if (item != null)
-                    {
-                        (item as AbstractActor).ReturnToWorld();
-                        item.SetPosition(this.GetX() + this.GetWidth()/2, this.GetY() + this.GetHeight()/2);
-                        this.inventory.RemoveItem(0);
-                        this.inventory.ShiftLeft();
-                        if(item is CatSword)
-                        {
-                            item.SetPhysics(true);
-                        }
-                    }
-                }
-                else if (Input.GetInstance().IsKeyPressed(Input.Key.SEMICOLON))
-                {
-                    this.inventory.ShiftRight();
-                }
-                else if (Input.GetInstance().IsKeyPressed(Input.Key.APOSTROPHE))
-                {
-                    this.inventory.ShiftLeft();
-                }
+                this.Using();
 
                 if (!this.canJump && this.lastY == this.GetY())
                 {
@@ -319,6 +221,107 @@ namespace MartinMatta_MerlinCore.Actors
             {
                 this.Die();
             } 
+        }
+
+        private void Using()
+        {
+            if (Input.GetInstance().IsKeyPressed(Input.Key.W))
+            {
+                ISpell spell = this.spellDirector.Build("Into the Fray!");
+                if (spell != null)
+                    spell.ApplyEffects(this);
+            }
+            else if (Input.GetInstance().IsKeyPressed(Input.Key.Q))
+            {
+                this.spellDirector.Build("icicle");
+            }
+            else if (Input.GetInstance().IsKeyPressed(Input.Key.E))
+            {
+                bool atStation = false;
+                List<IActor> stations = this.GetWorld().GetActors().Where(a => a is IStation).ToList();
+                foreach (IActor station in stations)
+                {
+                    if (this.IntersectsWithActor(station))
+                    {
+                        atStation = true;
+                        (station as IStation).Use(this);
+                        return;
+                    }
+                }
+                List<IActor> teleporters = this.GetWorld().GetActors().Where(a => a is Teleporter).ToList();
+                foreach (Teleporter teleporter in teleporters)
+                {
+                    if (this.IntersectsWithActor(teleporter))
+                    {
+                        teleporter.Use(this);
+                        return;
+
+                    }
+                }
+
+                if (!this.inventory.IsFull() && !atStation)
+                {
+                    bool foundItem = false;
+                    List<IActor> items = this.GetWorld().GetActors().Where(a => a is IItem).ToList();
+                    foreach (IActor item in items)
+                    {
+                        if (this.IntersectsWithActor(item))
+                        {
+                            this.inventory.AddItem((item as IItem));
+                            item.RemoveFromWorld();
+                            foundItem = true;
+                            return;
+                        }
+                    }
+                }
+                if (this.inventory.GetItem() != null)
+                {
+                    (this.inventory.GetItem() as IUsable)?.Use(this);
+                    if (this.inventory.GetItem() is Jar)
+                    {
+                        this.inventory.ReplaceItemAtIndex(0, new Jar().SetWorld(this.GetWorld()));
+                    }
+                    //else if (this.inventory.GetItem() is CatSword) { }
+                }
+            }
+            else if (Input.GetInstance().IsKeyDown(Input.Key.E))
+            {
+                List<IActor> boxes = this.GetWorld().GetActors().Where(a => a is Box).ToList();
+                foreach (Box box in boxes)
+                {
+                    if (box.IsActorLeft())
+                    {
+                        box.SetPosition(this.GetX() + this.GetWidth() + 1, this.GetY());
+                    }
+                    else if (box.IsActorRight())
+                    {
+                        box.SetPosition(this.GetX() - box.GetWidth() - 1, this.GetY());
+                    }
+                }
+            }
+            else if (Input.GetInstance().IsKeyPressed(Input.Key.R))
+            {
+                IItem item = this.inventory.GetItem();
+                if (item != null)
+                {
+                    (item as AbstractActor).ReturnToWorld();
+                    item.SetPosition(this.GetX() + this.GetWidth() / 2, this.GetY() + this.GetHeight() / 2);
+                    this.inventory.RemoveItem(0);
+                    this.inventory.ShiftLeft();
+                    if (item is CatSword)
+                    {
+                        item.SetPhysics(true);
+                    }
+                }
+            }
+            else if (Input.GetInstance().IsKeyPressed(Input.Key.SEMICOLON))
+            {
+                this.inventory.ShiftRight();
+            }
+            else if (Input.GetInstance().IsKeyPressed(Input.Key.APOSTROPHE))
+            {
+                this.inventory.ShiftLeft();
+            }
         }
     }
 }

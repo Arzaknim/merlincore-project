@@ -95,7 +95,7 @@ namespace MartinMatta_MerlinCore.Items
                     {
                         if (this.IntersectsWithActor(enemy))
                         {
-                            (enemy as AbstractCharacter).ChangeHealth(-this.damage);
+                            (enemy as ICharacter).ChangeHealth(-this.damage);
                             this.hasDealtDamage = true;
                         }
                     }

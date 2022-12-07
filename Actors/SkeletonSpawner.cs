@@ -81,10 +81,13 @@ namespace MartinMatta_MerlinCore.Actors
 
         private bool IsInSafeZone(IActor skeleton)
         {
-            IActor safehouse = this.GetWorld().GetActors().Find(x => x is SafeHouse);
-            if (skeleton.IntersectsWithActor(safehouse))
+            List<IActor> safehouses = this.GetWorld().GetActors().FindAll(x => x is SafeHouse);
+            foreach (IActor safehouse in safehouses)
             {
-                return true;
+                if (skeleton.IntersectsWithActor(safehouse))
+                {
+                    return true;
+                }
             }
             return false;
         }
