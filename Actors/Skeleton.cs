@@ -58,6 +58,11 @@ namespace MartinMatta_MerlinCore.Actors
             {
                 if (player != null)
                 {
+                    if(!(player as Player).HasStarted())
+                    {
+                        this.animation.Stop();
+                        return;
+                    }
                     if (this.strategy is ModifiedSpeedStrategy)
                     {
                         if (this.modifiedCounter == 180)

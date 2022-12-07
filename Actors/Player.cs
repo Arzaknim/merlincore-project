@@ -25,6 +25,8 @@ namespace MartinMatta_MerlinCore.Actors
         private ModifiedSpeedStrategy modifiedSpeedStrategy;
 
         private bool canJump;
+        private bool hasShownHelp;
+        private bool hasStarted;
         
         private IMovement moveUp;
         private IMovement moveDown;
@@ -42,6 +44,17 @@ namespace MartinMatta_MerlinCore.Actors
         public Player(int x, int y, double speed)
         {
             this.status = new Message($"{this.GetHealth()}, {this.GetMana()}", 0, -30, 15, Color.Orange, MessageDuration.Indefinite);
+            this.help = new Message("Use arrows for mevement.\n" +
+                                    "Press Q to cast a damaging spell.\n" +
+                                    "Press W to self heal and boost your athleticism briefly.\n" +
+                                    "Press E to pick up or use items, fill potions,\n" +
+                                    "use the teleporter and hold boxes.\n" +
+                                    "Using the semicolon and apostrophe you can switch\n" +
+                                    "between items in inventory.\n" +
+                                    "Destroy all the spawners and kill all the skeletons\n" +
+                                    "in the Ancient Ancestor's Cave.\n" +
+                                    "Good luck, 47."
+                                    , 700, 100, 30, Color.Orange, MessageDuration.Indefinite);
 
             this.SetPosition(x, y);
 
@@ -50,6 +63,8 @@ namespace MartinMatta_MerlinCore.Actors
             this.passivesCounter = 0;
             /*this.ChangeHealth(-90);
             this.ChangeMana(-90);*/
+            this.hasShownHelp = false;
+            this.hasStarted = false;
 
             this.spellDirector = new SpellDirector(this);
 
@@ -82,8 +97,24 @@ namespace MartinMatta_MerlinCore.Actors
             return this.inventory;
         }
 
+        public bool HasStarted()
+        {
+            return this.hasStarted;
+        }
+
         public override void Update()
         {
+            if (!this.hasShownHelp)
+            {
+                this.GetWorld().AddMessage(this.help);
+                this.hasShownHelp = true;
+            }
+            if(!this.hasStarted && (Input.GetInstance().IsKeyDown(Input.Key.LEFT) || Input.GetInstance().IsKeyDown(Input.Key.RIGHT) || Input.GetInstance().IsKeyDown(Input.Key.UP)) )
+            {
+                this.GetWorld().RemoveMessage(this.help);
+                this.hasStarted = true;
+            }
+
             this.GetWorld().RemoveMessage(this.status);
             this.status = new Message($"{this.GetHealth()}, {this.GetMana()}", -10, -15, 15, Color.Orange, MessageDuration.Indefinite);
             this.status.SetAnchorPoint(this);
