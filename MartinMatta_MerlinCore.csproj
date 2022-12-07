@@ -18,6 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="resources\catsword.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="resources\cauldron.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

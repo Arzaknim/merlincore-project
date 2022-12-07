@@ -107,6 +107,9 @@ namespace MartinMatta_MerlinCore.Actors
             if (!this.hasShownHelp)
             {
                 this.GetWorld().AddMessage(this.help);
+                CatSword cat = new CatSword(this);
+                cat.OnAddedToWorld(this.GetWorld());
+                this.inventory.AddItem(cat);
                 this.hasShownHelp = true;
             }
             if(!this.hasStarted && (Input.GetInstance().IsKeyDown(Input.Key.LEFT) || Input.GetInstance().IsKeyDown(Input.Key.RIGHT) || Input.GetInstance().IsKeyDown(Input.Key.UP)) )
@@ -253,7 +256,13 @@ namespace MartinMatta_MerlinCore.Actors
                         if (!foundItem && this.inventory.GetItem() != null)
                         {
                             (this.inventory.GetItem() as IUsable)?.Use(this);
-                            this.inventory.ReplaceItemAtIndex(0, new Jar().SetWorld(this.GetWorld()));
+                            if(this.inventory.GetItem() is Jar)
+                            {
+                                this.inventory.ReplaceItemAtIndex(0, new Jar().SetWorld(this.GetWorld()));
+                            }
+                            //else if (this.inventory.GetItem() is CatSword) { }
+
+
                         }
                     }
                 }
@@ -281,6 +290,10 @@ namespace MartinMatta_MerlinCore.Actors
                         item.SetPosition(this.GetX() + this.GetWidth()/2, this.GetY() + this.GetHeight()/2);
                         this.inventory.RemoveItem(0);
                         this.inventory.ShiftLeft();
+                        if(item is CatSword)
+                        {
+                            item.SetPhysics(true);
+                        }
                     }
                 }
                 else if (Input.GetInstance().IsKeyPressed(Input.Key.SEMICOLON))

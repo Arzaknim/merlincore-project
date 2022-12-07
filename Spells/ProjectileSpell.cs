@@ -32,11 +32,19 @@ namespace MartinMatta_MerlinCore.Spells
         public ProjectileSpell(AbstractCharacter caster, int speed, int range, IEnumerable<ICommand> effects, Animation animation)
         {
             this.caster = caster;
-            int casterFrontX = this.caster.GetX() + this.caster.GetAnimation().GetWidth();
-            int casterMiddleY = this.caster.GetY() + this.caster.GetAnimation().GetHeight() / 2;
-            this.SetPosition(casterFrontX, casterMiddleY);
             this.SetAnimation(animation);
             this.animation.Start();
+            int casterFrontX = 0;
+            int casterMiddleY = casterMiddleY = caster.GetY() + caster.GetAnimation().GetHeight() / 2;
+            if (this.caster.GetOrientation() == ActorOrientation.RIGHT)
+            {
+                casterFrontX = caster.GetX() + caster.GetAnimation().GetWidth();
+            }
+            else if (this.caster.GetOrientation() == ActorOrientation.LEFT)
+            {
+                casterFrontX = caster.GetX() - this.GetWidth();
+            }
+            this.SetPosition(casterFrontX, casterMiddleY);
             this.speed = speed;
             this.normalSpeedStrategy = new NormalSpeedStrategy();
             this.initialOrientation = this.caster.GetOrientation();
