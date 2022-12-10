@@ -26,6 +26,14 @@ namespace MartinMatta_MerlinCore
                 world.CenterOn(player);
                 ((Skeleton)enemy).SetPlayerToChase(player);
 
+                player.GetAnimation().SetAnimationLayer(AnimationLayer.Low);
+
+                List<IActor> stations = world.GetActors().FindAll(x => x is AbstractPotionStation);
+                foreach (IActor station in stations)
+                {
+                    station.GetAnimation().SetAnimationLayer(AnimationLayer.High);
+                }
+
                 IActor teleport1 = world.GetActors().Find(x => x.GetName() == "Teleporter 1");
                 IActor teleport2 = world.GetActors().Find(x => x.GetName() == "Teleporter 2");
                 (teleport1 as Teleporter).Subscribe((Teleporter)teleport2);

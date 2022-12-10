@@ -18,7 +18,7 @@ namespace MartinMatta_MerlinCore.Actors
         public ManaPotionStation()
         {
             this.type = PotionType.MANA;
-            this.animation = new Animation("resources/manapotionstation.png", 64, 64);
+            this.animation = new Animation("resources/manapotionstation.png", 32, 48);
             this.animation.Start();
         }
     }

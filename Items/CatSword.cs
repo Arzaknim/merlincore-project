@@ -20,9 +20,8 @@ namespace MartinMatta_MerlinCore.Items
         private bool inUse;
         private int thrustCounter;
         private int thrustTimer;
-        private Move moveRight;
-        private Move moveLeft;
         private ActorOrientation orientation;
+        private bool hasIntersectedWall;
 
 
         public CatSword(Player player)
@@ -31,11 +30,10 @@ namespace MartinMatta_MerlinCore.Items
             this.inUse = false;
             this.player = player;
             this.thrustCounter = 0;
-            this.moveRight = new Move(this, 1, 0);
-            this.moveLeft = new Move(this, -1, 0);
             this.animation = new Animation("resources/catsword.png", 30, 15);
             this.orientation = ActorOrientation.RIGHT;
             this.hasDealtDamage = false;
+            this.hasIntersectedWall = false;
         }
 
         public double GetSpeed()
@@ -52,44 +50,58 @@ namespace MartinMatta_MerlinCore.Items
         {
             if (this.inUse)
             {
+                int centerY = this.player.GetY() + this.player.GetHeight()/2;
                 if (this.thrustTimer == 10 && this.thrustCounter < 6)
                 {
                     if(player.GetOrientation() == ActorOrientation.RIGHT)
                     {
-                        this.moveRight.Execute();
+                        if (this.orientation != player.GetOrientation())
+                            this.animation.FlipAnimation();
+                        this.SetPosition(this.player.GetX() + this.player.GetWidth() + this.thrustCounter*5 + 1, centerY);
                     }
                     else if (player.GetOrientation() == ActorOrientation.LEFT)
                     {
-                        this.moveLeft.Execute();
+                        if (this.orientation != player.GetOrientation())
+                            this.animation.FlipAnimation();
+                        this.SetPosition(this.player.GetX() - this.GetWidth() - this.thrustCounter * 5 - 1, centerY);
                     }
                     this.thrustCounter++;
                     this.thrustTimer = 0;
                 }
                 else if (this.thrustTimer == 10 && this.thrustCounter >= 6)
                 {
-                    if (player.GetOrientation() == ActorOrientation.RIGHT)
+                    if (this.orientation != player.GetOrientation())
+                        this.animation.FlipAnimation();
+                    /*if (player.GetOrientation() == ActorOrientation.RIGHT)
                     {
                         this.moveLeft.Execute();
                     }
                     else if (player.GetOrientation() == ActorOrientation.LEFT)
                     {
                         this.moveRight.Execute();
-                    }
+                    }*/
                     this.thrustCounter++;
                     this.thrustTimer = 0;
-                    if(thrustCounter == 11)
+                    if(thrustCounter == 9)
                     {
                         thrustCounter = 0;
                         this.inUse = false;
                         this.hasDealtDamage = false;
                         this.RemoveFromWorld();
                         this.SetPhysics(true);
+                        if (this.orientation != player.GetOrientation())
+                            this.animation.FlipAnimation();
+                        return;
                     }
                 }
                 List<IActor> skeletons = this.GetWorld().GetActors().FindAll(x => x.GetName() == "Spooky Scary Skeleton");
                 List<IActor> spawners = this.GetWorld().GetActors().FindAll(x => x is SkeletonSpawner);
                 List<IActor> enemies = skeletons.Concat(spawners).ToList();
-                if (!this.hasDealtDamage)
+                if (this.GetWorld().IntersectWithWall(this))
+                {
+                    this.hasIntersectedWall = true;
+                }
+                if (!this.hasDealtDamage && !this.hasIntersectedWall)
                 {
                     foreach (IActor enemy in enemies)
                     {
@@ -106,33 +118,37 @@ namespace MartinMatta_MerlinCore.Items
 
         public void Use(IActor actor)
         {
-            this.inUse = true;
-            this.SetPhysics(false);
-            this.animation.Start();
-            this.player.GetWorld().AddActor(this);
-            this.OnAddedToWorld(this.player.GetWorld());
-            int casterFrontX = 0;
-            int casterMiddleY = casterMiddleY = this.player.GetY() + this.player.GetAnimation().GetHeight() / 2;
-            if (this.player.GetOrientation() == ActorOrientation.RIGHT)
+            if (!this.inUse)
             {
-                if (this.orientation == ActorOrientation.LEFT)
+                this.inUse = true;
+                this.hasIntersectedWall = false;
+                this.SetPhysics(false);
+                this.animation.Start();
+                this.player.GetWorld().AddActor(this);
+                this.OnAddedToWorld(this.player.GetWorld());
+                int casterFrontX = 0;
+                int casterMiddleY = this.player.GetY() + this.player.GetAnimation().GetHeight() / 2;
+                if (this.player.GetOrientation() == ActorOrientation.RIGHT)
                 {
-                    this.animation.FlipAnimation();
-                    this.orientation = ActorOrientation.RIGHT;
+                    if (this.orientation == ActorOrientation.LEFT)
+                    {
+                        this.animation.FlipAnimation();
+                        this.orientation = ActorOrientation.RIGHT;
+                    }
+                    casterFrontX = this.player.GetX() + this.player.GetAnimation().GetWidth();
                 }
-                casterFrontX = this.player.GetX() + this.player.GetAnimation().GetWidth();
-            }
-            else if (this.player.GetOrientation() == ActorOrientation.LEFT)
-            {   
-                if(this.orientation == ActorOrientation.RIGHT)
-                {
-                    this.animation.FlipAnimation();
-                    this.orientation = ActorOrientation.LEFT;
+                else if (this.player.GetOrientation() == ActorOrientation.LEFT)
+                {   
+                    if(this.orientation == ActorOrientation.RIGHT)
+                    {
+                        this.animation.FlipAnimation();
+                        this.orientation = ActorOrientation.LEFT;
+                    }
+                    casterFrontX = this.player.GetX() - this.GetWidth();
                 }
-                casterFrontX = this.player.GetX() - this.GetWidth();
+                this.SetPosition(casterFrontX, casterMiddleY);
+                this.ReturnToWorld();
             }
-            this.SetPosition(casterFrontX, casterMiddleY);
-            this.ReturnToWorld();
         }
     }
 }

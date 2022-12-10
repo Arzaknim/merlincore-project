@@ -44,7 +44,7 @@ namespace MartinMatta_MerlinCore.Actors
         public Player(int x, int y, double speed)
         {
             this.status = new Message($"{this.GetHealth()}, {this.GetMana()}", 0, -30, 15, Color.Orange, MessageDuration.Indefinite);
-            this.help = new Message("Use arrows for mevement.\n" +
+            this.help = new Message("Use arrows for movement.\n" +
                                     "Press Q to cast a damaging spell.\n" +
                                     "Press W to self heal and boost your athleticism briefly.\n" +
                                     "Press E to pick up or use items, fill potions,\n" +
@@ -89,7 +89,7 @@ namespace MartinMatta_MerlinCore.Actors
             this.lastY = 0;
             this.passives.Add(new HealthRechargeEffect(this));
             this.passives.Add(new ManaRechargeEffect(this));
-            this.inventory = new Backpack(3);
+            this.inventory = new Backpack(4);
         }
 
         public Backpack GetInvetory()
@@ -237,13 +237,11 @@ namespace MartinMatta_MerlinCore.Actors
             }
             else if (Input.GetInstance().IsKeyPressed(Input.Key.E))
             {
-                bool atStation = false;
                 List<IActor> stations = this.GetWorld().GetActors().Where(a => a is IStation).ToList();
                 foreach (IActor station in stations)
                 {
                     if (this.IntersectsWithActor(station))
                     {
-                        atStation = true;
                         (station as IStation).Use(this);
                         return;
                     }
@@ -259,7 +257,7 @@ namespace MartinMatta_MerlinCore.Actors
                     }
                 }
 
-                if (!this.inventory.IsFull() && !atStation)
+                if (!this.inventory.IsFull())
                 {
                     bool foundItem = false;
                     List<IActor> items = this.GetWorld().GetActors().Where(a => a is IItem).ToList();
@@ -308,10 +306,7 @@ namespace MartinMatta_MerlinCore.Actors
                     item.SetPosition(this.GetX() + this.GetWidth() / 2, this.GetY() + this.GetHeight() / 2);
                     this.inventory.RemoveItem(0);
                     this.inventory.ShiftLeft();
-                    if (item is CatSword)
-                    {
-                        item.SetPhysics(true);
-                    }
+                    item.SetPhysics(true);
                 }
             }
             else if (Input.GetInstance().IsKeyPressed(Input.Key.SEMICOLON))

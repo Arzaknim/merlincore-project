@@ -5,7 +5,7 @@
  </tileset>
  <layer id="1" name="background" width="100" height="37">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAACu3Y0Q2CMBRG4UrnYQW3YA0e3cJH4xSO4GwqwSZSIKmhev/S8/CFhyaGe08MSu+d6wEs6t6Oh7lLMyrl7OHK1fkppb3SQ2uv9NDaKz209kqP6WxrO1A/s95p7h5hpjDr5w5KOLPeaYrz6z5Pfn6Ne8TzhBmXZlU9s951iqUWwzXuYX2ftaOHFnpooUdewzNgDT3ogW1q6ZHrPTg96AE79NAS97i7NK3/Pevd5Jbyu4se++hxbUY3n1/4bOv9WaCHFnpss/X/OD3oseceudFDCz20xD1S3+O0f5B7VvV3V/TQ72H9fa0dPbTQQws9tHz7HAdq9AR2gkZr0DkAAA==
+   H4sIAAAAAAAACu3Yyw2CQBRGYWTqoQW7oA2WduHSWIUlWBtKcCLPZJCR+8OcxRcWNzHOPVGUymVZBWBS+XE+jd3y1l5mdbZfpetT2is9tPZKD6290kNrr/Ton21uB+oz653G7tGc6Zl9z9rdgcWsXjiz3mmI6/t9Xtz4Ouzhd+P5M3pbz7pnCJ1Z7zrEVIvmOuzR3Y01651ZoIcWemihR1zNPWAOPeiReo+1UukR6zk4Peihwvq7wwI9tPzao3D/Z72b2EJ+d9HjGD3ueevh4vOvbb0/C/TQQo911v4fpwc9jtwjNnpooYeWYY/Q5zjFBmKfVf3ZFT30e1h/XlNHDy300EIPLUvv40CKXrcIRrTQOQAA
   </data>
  </layer>
  <layer id="2" name="walls" width="100" height="37" visible="0">
@@ -49,12 +49,12 @@
     <property name="Type" value="manapotion"/>
    </properties>
   </object>
-  <object id="18" name="Health Potion Station" class="healthpotionstation" x="381" y="255" width="64" height="64">
+  <object id="18" name="Health Potion Station" class="healthpotionstation" x="342" y="267" width="32" height="48">
    <properties>
     <property name="Type" value="healthpotionstation"/>
    </properties>
   </object>
-  <object id="19" name="Mana Potion Station" class="manapotionstation" x="474.5" y="254.5" width="64" height="64">
+  <object id="19" name="Mana Potion Station" class="manapotionstation" x="388.5" y="266.5" width="32" height="48">
    <properties>
     <property name="Type" value="manapotionstation"/>
    </properties>
@@ -94,7 +94,7 @@
     <property name="Type" value="safehouse"/>
    </properties>
   </object>
-  <object id="27" name="Safehouse big" class="safehouse" x="33" y="161" width="560" height="160">
+  <object id="27" name="Safehouse big" class="safehouse" x="24" y="156" width="560" height="160">
    <properties>
     <property name="Type" value="safehouse"/>
    </properties>

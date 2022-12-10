@@ -18,7 +18,7 @@ namespace MartinMatta_MerlinCore.Actors
         public HealthPotionStation()
         {
             this.type = PotionType.HEALTH;
-            this.animation = new Animation("resources/healthpotionstation.png", 64, 64);
+            this.animation = new Animation("resources/healthpotionstation.png", 32, 48);
             this.animation.Start();
         }
     }
