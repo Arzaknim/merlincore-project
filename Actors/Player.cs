@@ -259,16 +259,17 @@ namespace MartinMatta_MerlinCore.Actors
 
                 if (!this.inventory.IsFull())
                 {
-                    bool foundItem = false;
                     List<IActor> items = this.GetWorld().GetActors().Where(a => a is IItem).ToList();
                     foreach (IActor item in items)
                     {
                         if (this.IntersectsWithActor(item))
                         {
-                            this.inventory.AddItem((item as IItem));
-                            item.RemoveFromWorld();
-                            foundItem = true;
-                            return;
+                            if(item is CatSword && !(item as CatSword).IsInUse())
+                            {
+                                this.inventory.AddItem((item as IItem));
+                                item.RemoveFromWorld();
+                                return;
+                            }
                         }
                     }
                 }

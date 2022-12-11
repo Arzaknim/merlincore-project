@@ -63,7 +63,8 @@ namespace MartinMatta_MerlinCore.Actors
                 {
                     yield return item;
                 }
-                yield break;
+                else
+                    yield break;
             }
         }
 

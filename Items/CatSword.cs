@@ -33,7 +33,6 @@ namespace MartinMatta_MerlinCore.Items
             this.animation = new Animation("resources/catsword.png", 30, 15);
             this.orientation = ActorOrientation.RIGHT;
             this.hasDealtDamage = false;
-            this.hasIntersectedWall = false;
         }
 
         public double GetSpeed()
@@ -55,32 +54,54 @@ namespace MartinMatta_MerlinCore.Items
                 {
                     if(player.GetOrientation() == ActorOrientation.RIGHT)
                     {
-                        if (this.orientation != player.GetOrientation())
+                        if (this.orientation != ActorOrientation.RIGHT)
+                        {
                             this.animation.FlipAnimation();
+                            this.orientation = ActorOrientation.RIGHT;
+                        }
                         this.SetPosition(this.player.GetX() + this.player.GetWidth() + this.thrustCounter*5 + 1, centerY);
                     }
                     else if (player.GetOrientation() == ActorOrientation.LEFT)
                     {
-                        if (this.orientation != player.GetOrientation())
+                        if (this.orientation != ActorOrientation.LEFT)
+                        {
                             this.animation.FlipAnimation();
-                        this.SetPosition(this.player.GetX() - this.GetWidth() - this.thrustCounter * 5 - 1, centerY);
+                            this.orientation = ActorOrientation.LEFT;
+                        }
+                        int possiblyOutOfBounds = this.player.GetX() - this.GetWidth() - this.thrustCounter * 5 - 1;
+                        this.SetPosition(possiblyOutOfBounds < 0 ? 0: possiblyOutOfBounds, centerY);
                     }
                     this.thrustCounter++;
                     this.thrustTimer = 0;
                 }
                 else if (this.thrustTimer == 10 && this.thrustCounter >= 6)
                 {
-                    if (this.orientation != player.GetOrientation())
-                        this.animation.FlipAnimation();
-                    /*if (player.GetOrientation() == ActorOrientation.RIGHT)
+                    if (player.GetOrientation() == ActorOrientation.RIGHT)
                     {
-                        this.moveLeft.Execute();
+                        if (this.orientation != ActorOrientation.RIGHT)
+                        {
+                            this.animation.FlipAnimation();
+                            this.orientation = ActorOrientation.RIGHT;
+                        }
                     }
                     else if (player.GetOrientation() == ActorOrientation.LEFT)
                     {
-                        this.moveRight.Execute();
-                    }*/
-                    this.thrustCounter++;
+                        if (this.orientation != ActorOrientation.LEFT)
+                        {
+                            this.animation.FlipAnimation();
+                            this.orientation = ActorOrientation.LEFT;
+                        }
+                    }
+
+                        /*if (player.GetOrientation() == ActorOrientation.RIGHT)
+                        {
+                            this.moveLeft.Execute();
+                        }
+                        else if (player.GetOrientation() == ActorOrientation.LEFT)
+                        {
+                            this.moveRight.Execute();
+                        }*/
+                        this.thrustCounter++;
                     this.thrustTimer = 0;
                     if(thrustCounter == 9)
                     {
@@ -89,19 +110,26 @@ namespace MartinMatta_MerlinCore.Items
                         this.hasDealtDamage = false;
                         this.RemoveFromWorld();
                         this.SetPhysics(true);
-                        if (this.orientation != player.GetOrientation())
-                            this.animation.FlipAnimation();
                         return;
                     }
                 }
                 List<IActor> skeletons = this.GetWorld().GetActors().FindAll(x => x.GetName() == "Spooky Scary Skeleton");
                 List<IActor> spawners = this.GetWorld().GetActors().FindAll(x => x is SkeletonSpawner);
                 List<IActor> enemies = skeletons.Concat(spawners).ToList();
-                if (this.GetWorld().IntersectWithWall(this))
+                while (this.GetWorld().IntersectWithWall(this))
                 {
-                    this.hasIntersectedWall = true;
+                    int bounds = 0;
+                    if(this.orientation == ActorOrientation.LEFT)
+                    {
+                        bounds = this.GetX() + 1;
+                    }
+                    else if(this.orientation == ActorOrientation.RIGHT)
+                    {
+                        bounds = this.GetX() - 1;
+                    }
+                    this.SetPosition(bounds < 0 ? 0 : bounds, this.GetY());
                 }
-                if (!this.hasDealtDamage && !this.hasIntersectedWall)
+                if (!this.hasDealtDamage)
                 {
                     foreach (IActor enemy in enemies)
                     {
@@ -114,6 +142,11 @@ namespace MartinMatta_MerlinCore.Items
                 }
                 this.thrustTimer++;
             }
+        }
+
+        public bool IsInUse()
+        {
+            return this.inUse;
         }
 
         public void Use(IActor actor)
